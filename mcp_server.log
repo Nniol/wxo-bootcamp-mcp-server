@@ -1,0 +1,94 @@
+2025-07-28 11:51:25,959 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 11:51:43,581 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:16:33,900 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:16:34,135 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:16:34,135 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:18:51,234 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:18:51,465 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:18:51,465 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:18:56,005 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:20:15,344 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 13:20:22,955 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:20:35,565 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:27:58,231 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:27:58,475 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:27:58,475 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:28:03,031 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:28:03,048 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:28:03,048 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:28:21,293 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 13:28:25,669 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:29:26,593 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:29:26,822 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:29:26,822 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:29:31,278 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:29:31,294 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:29:31,298 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:29:34,349 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-28 13:29:35,587 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-28 13:29:40,292 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:41:10,059 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:41:10,359 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:41:10,362 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:41:15,643 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:41:15,658 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:41:15,663 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:41:31,497 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:41:31,791 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:41:31,793 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:41:37,054 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:41:37,067 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:41:37,072 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:47:44,611 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:47:44,912 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:47:44,916 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:47:50,167 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:47:50,182 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:47:50,187 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:48:06,449 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 14:06:41,874 - MCPServer - INFO - Loading Patient Data
+2025-07-28 14:06:42,115 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 14:06:42,115 - MCPServer - INFO - Loading Visit Data
+2025-07-28 14:06:46,581 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 14:06:46,594 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 14:06:46,597 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 14:07:03,682 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 14:07:03,682 - MCPServer - DEBUG - 0: Dr. Isabella Nguyen: Good morning! I understand you're having some trouble with constipation?
+
+Patie
+2025-07-28 16:27:14,967 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:27:15,226 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:27:15,228 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:27:19,885 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:27:19,897 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:27:19,902 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:29:54,548 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:32:40,328 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:32:40,584 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:32:40,586 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:32:45,172 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:32:45,185 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:32:45,190 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:33:07,078 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:33:17,249 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:33:24,866 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:33:41,756 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:34:23,777 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:34:50,961 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:35:13,386 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:35:57,650 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:02,115 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:09,456 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:32,529 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:37:02,552 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:37:29,558 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:38:49,178 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:39:18,944 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:56:16,007 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:56:16,247 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:56:16,249 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:56:21,048 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:56:21,060 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:56:21,064 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:56:34,228 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:56:42,305 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
