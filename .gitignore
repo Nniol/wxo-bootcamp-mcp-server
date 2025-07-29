@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__
+*.pyc
 *.py[cod]
 *$py.class
 
@@ -168,5 +169,7 @@ cython_debug/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+
+# Custom
 mcp_server.log
-*.pyc
