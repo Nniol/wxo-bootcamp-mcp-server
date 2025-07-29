@@ -1,0 +1,223 @@
+2025-07-28 11:51:25,959 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 11:51:43,581 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:16:33,900 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:16:34,135 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:16:34,135 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:18:51,234 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:18:51,465 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:18:51,465 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:18:56,005 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:20:15,344 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 13:20:22,955 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:20:35,565 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:27:58,231 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:27:58,475 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:27:58,475 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:28:03,031 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:28:03,048 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:28:03,048 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:28:21,293 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 13:28:25,669 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:29:26,593 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:29:26,822 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:29:26,822 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:29:31,278 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:29:31,294 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:29:31,298 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:29:34,349 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-28 13:29:35,587 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-28 13:29:40,292 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 13:41:10,059 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:41:10,359 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:41:10,362 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:41:15,643 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:41:15,658 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:41:15,663 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:41:31,497 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:41:31,791 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:41:31,793 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:41:37,054 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:41:37,067 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:41:37,072 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:47:44,611 - MCPServer - INFO - Loading Patient Data
+2025-07-28 13:47:44,912 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 13:47:44,916 - MCPServer - INFO - Loading Visit Data
+2025-07-28 13:47:50,167 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 13:47:50,182 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 13:47:50,187 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 13:48:06,449 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 14:06:41,874 - MCPServer - INFO - Loading Patient Data
+2025-07-28 14:06:42,115 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 14:06:42,115 - MCPServer - INFO - Loading Visit Data
+2025-07-28 14:06:46,581 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 14:06:46,594 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 14:06:46,597 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 14:07:03,682 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 14:07:03,682 - MCPServer - DEBUG - 0: Dr. Isabella Nguyen: Good morning! I understand you're having some trouble with constipation?
+
+Patie
+2025-07-28 16:27:14,967 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:27:15,226 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:27:15,228 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:27:19,885 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:27:19,897 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:27:19,902 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:29:54,548 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:32:40,328 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:32:40,584 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:32:40,586 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:32:45,172 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:32:45,185 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:32:45,190 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:33:07,078 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:33:17,249 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:33:24,866 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:33:41,756 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:34:23,777 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:34:50,961 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:35:13,386 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:35:57,650 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:02,115 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:09,456 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:36:32,529 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:37:02,552 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:37:29,558 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:38:49,178 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:39:18,944 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-28 16:56:16,007 - MCPServer - INFO - Loading Patient Data
+2025-07-28 16:56:16,247 - MCPServer - INFO - Loaded Patient Data
+2025-07-28 16:56:16,249 - MCPServer - INFO - Loading Visit Data
+2025-07-28 16:56:21,048 - MCPServer - INFO - Loaded Visit Data
+2025-07-28 16:56:21,060 - MCPServer - INFO - Loading Transcript Data
+2025-07-28 16:56:21,064 - MCPServer - INFO - Loaded Transcript Data
+2025-07-28 16:56:34,228 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-28 16:56:42,305 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 09:16:09,565 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:16:10,142 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:16:10,147 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:16:23,594 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:16:23,765 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:16:24,063 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:54:26,301 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:54:26,793 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:54:26,806 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:54:35,524 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:54:35,551 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:54:35,561 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:55:47,334 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 09:56:31,473 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 09:57:55,118 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:57:55,359 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:57:55,359 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:57:59,892 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:57:59,908 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:57:59,911 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:58:26,538 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:58:26,770 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:58:26,770 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:58:31,266 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:58:31,282 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:58:31,282 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:58:53,044 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:58:53,277 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:58:53,287 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:58:57,883 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:58:57,900 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:58:57,900 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:59:02,119 - MCPServer - INFO - Loading Patient Data
+2025-07-29 09:59:02,365 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 09:59:02,368 - MCPServer - INFO - Loading Visit Data
+2025-07-29 09:59:06,904 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 09:59:06,926 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 09:59:06,926 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 09:59:15,094 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 09:59:25,308 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 09:59:25,319 - MCPServer - INFO - {'type': 'object', 'properties': {'information': {'anyOf': [{'$ref': '#/$defs/Patient'}, {'type': 'null'}], 'description': 'Basic information about a patient'}, 'medical': {'anyOf': [{'$ref': '#/$defs/MedicalServerOutput'}, {'type': 'null'}], 'description': 'List of conditions, allergies and prescriptions a patient has'}, 'vital_signs': {'anyOf': [{'$ref': '#/$defs/VitalSigns'}, {'type': 'null'}], 'description': 'Most recent vital signs of a patient'}}, 'required': ['information', 'medical', 'vital_signs']}
+2025-07-29 09:59:25,319 - MCPServer - INFO - pat: {"patient_id":"PAT003","age":22,"sex":"M","pregnant":false,"breastfeeding":false,"pregnancy_trimester":null,"insurance_id":"INS003ANON","created_date":"2025-07-29T09:59:02.087948"}
+2025-07-29 09:59:25,319 - MCPServer - INFO - pat: {"conditions":["adhd","anxiety_disorder"],"allergies":[],"prescriptions":[{"prescription_id":"RX006","drug_name":"methylphenidate","brand_name":"Ritalin","ndc_code":null,"rxcui":null,"dose":"20mg","frequency":"twice daily","route":"oral","duration_days":null,"indication":"ADHD","prescriber_id":"","prescriber_notes":""},{"prescription_id":"RX007","drug_name":"alprazolam","brand_name":"Xanax","ndc_code":null,"rxcui":null,"dose":"0.5mg","frequency":"as needed","route":"oral","duration_days":null,"indication":"Anxiety","prescriber_id":"","prescriber_notes":""}]}
+2025-07-29 09:59:25,319 - MCPServer - INFO - pat: {"blood_pressure_systolic":125,"blood_pressure_diastolic":80,"heart_rate":75,"weight_kg":70.0,"height_cm":175.0,"bmi":22.9,"creatinine_mg_dl":1.0,"creatinine_clearance_ml_min":114.7,"when":"2025-07-29T09:59:02.087948"}
+2025-07-29 10:05:08,605 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:05:08,839 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:05:08,839 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:05:13,324 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:05:13,340 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:05:13,340 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:05:23,577 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:05:23,586 - MCPServer - INFO - {'type': 'object', 'properties': {'information': {'anyOf': [{'description': 'Patient demographic and clinical information', 'properties': {'patient_id': {'minLength': 1, 'title': 'Patient Id', 'type': 'string'}, 'age': {'maximum': 150, 'minimum': 0, 'title': 'Age', 'type': 'integer'}, 'sex': {'enum': ['F', 'M', 'OTHER'], 'title': 'Gender', 'type': 'string'}, 'pregnant': {'default': False, 'title': 'Pregnant', 'type': 'boolean'}, 'breastfeeding': {'default': False, 'title': 'Breastfeeding', 'type': 'boolean'}, 'pregnancy_trimester': {'anyOf': [{'maximum': 3, 'minimum': 0, 'type': 'integer'}, {'type': 'null'}], 'default': None, 'title': 'Pregnancy Trimester'}, 'insurance_id': {'anyOf': [{'type': 'string'}, {'type': 'null'}], 'default': None, 'description': 'Anonymized insurance identifier', 'title': 'Insurance Id'}, 'created_date': {'format': 'date-time', 'title': 'Created Date', 'type': 'string'}}, 'required': ['patient_id', 'age', 'sex'], 'title': 'Patient', 'type': 'object'}, {'type': 'null'}], 'description': 'Basic information about a patient'}, 'medical': {'anyOf': [{'description': "Groups data about a patient's Conditions (diagnoses), Allergies and Prescriptions", 'properties': {'conditions': {'description': 'Conditions, Diagnoses, Diseases a patient has, blank if none', 'items': {'type': 'string'}, 'title': 'Conditions', 'type': 'array'}, 'allergies': {'description': 'List of allergies a patient has, blank if none', 'items': {'type': 'string'}, 'title': 'Allergies', 'type': 'array'}, 'prescriptions': {'description': 'List of prescriptions a patient has', 'items': {'description': 'Individual drug prescription with API lookup information', 'properties': {'prescription_id': {'minLength': 1, 'title': 'Prescription Id', 'type': 'string'}, 'drug_name': {'description': 'Generic name for API lookup', 'minLength': 1, 'title': 'Drug Name', 'type': 'string'}, 'brand_name': {'anyOf': [{'type': 'string'}, {'type': 'null'}], 'default': None, 'description': 'The brand name of the drug', 'title': 'Brand Name'}, 'ndc_code': {'anyOf': [{'type': 'string'}, {'type': 'null'}], 'default': None, 'description': 'National Drug Code', 'title': 'Ndc Code'}, 'rxcui': {'anyOf': [{'type': 'string'}, {'type': 'null'}], 'default': None, 'description': 'RxNorm Concept Unique Identifier', 'title': 'Rxcui'}, 'dose': {'default': '', 'description': 'Dosage for the prescription', 'title': 'Dose', 'type': 'string'}, 'frequency': {'default': '', 'description': 'How often to take the dose of the drug', 'title': 'Frequency', 'type': 'string'}, 'route': {'default': 'oral', 'description': 'Administration route: oral, IV, topical, etc.', 'title': 'Route', 'type': 'string'}, 'duration_days': {'anyOf': [{'minimum': 1, 'type': 'integer'}, {'type': 'null'}], 'default': None, 'description': 'For how many days to take the drug', 'title': 'Duration Days'}, 'indication': {'default': '', 'title': 'Indication', 'type': 'string'}, 'prescriber_id': {'default': '', 'description': 'Anonymized prescriber ID', 'title': 'Prescriber Id', 'type': 'string'}, 'prescriber_notes': {'default': '', 'title': 'Prescriber Notes', 'type': 'string'}}, 'required': ['prescription_id', 'drug_name'], 'title': 'Prescription', 'type': 'object'}, 'title': 'Prescriptions', 'type': 'array'}}, 'title': 'MedicalServerOutput', 'type': 'object'}, {'type': 'null'}], 'description': 'List of conditions, allergies and prescriptions a patient has'}, 'vital_signs': {'anyOf': [{'description': 'Patient vital signs and key metrics', 'properties': {'blood_pressure_systolic': {'anyOf': [{'maximum': 300, 'minimum': 50, 'type': 'integer'}, {'type': 'null'}], 'default': None, 'title': 'Blood Pressure Systolic'}, 'blood_pressure_diastolic': {'anyOf': [{'maximum': 200, 'minimum': 30, 'type': 'integer'}, {'type': 'null'}], 'default': None, 'title': 'Blood Pressure Diastolic'}, 'heart_rate': {'anyOf': [{'maximum': 250, 'minimum': 30, 'type': 'integer'}, {'type': 'null'}], 'default': None, 'title': 'Heart Rate'}, 'weight_kg': {'anyOf': [{'exclusiveMinimum': 0, 'maximum': 500, 'type': 'number'}, {'type': 'null'}], 'default': None, 'title': 'Weight Kg'}, 'height_cm': {'anyOf': [{'exclusiveMinimum': 0, 'maximum': 300, 'type': 'number'}, {'type': 'null'}], 'default': None, 'title': 'Height Cm'}, 'bmi': {'anyOf': [{'maximum': 100, 'minimum': 10, 'type': 'number'}, {'type': 'null'}], 'default': None, 'title': 'Bmi'}, 'creatinine_mg_dl': {'anyOf': [{'exclusiveMinimum': 0, 'type': 'number'}, {'type': 'null'}], 'default': None, 'description': 'Kidney function marker', 'title': 'Creatinine Mg Dl'}, 'creatinine_clearance_ml_min': {'anyOf': [{'exclusiveMinimum': 0, 'type': 'number'}, {'type': 'null'}], 'default': None, 'title': 'Creatinine Clearance Ml Min'}, 'when': {'description': 'When were these values updated', 'format': 'date-time', 'title': 'When', 'type': 'string'}}, 'title': 'VitalSigns', 'type': 'object'}, {'type': 'null'}], 'description': 'Most recent vital signs of a patient'}}, 'required': ['information', 'medical', 'vital_signs']}
+2025-07-29 10:05:23,586 - MCPServer - INFO - pat: {"patient_id":"PAT002","age":28,"sex":"F","pregnant":true,"breastfeeding":false,"pregnancy_trimester":2,"insurance_id":"INS002ANON","created_date":"2025-07-29T10:05:08.572242"}
+2025-07-29 10:05:23,586 - MCPServer - INFO - pat: {"conditions":["essential_hypertension","major_depression"],"allergies":[],"prescriptions":[{"prescription_id":"RX003","drug_name":"lisinopril","brand_name":"Prinivil","ndc_code":null,"rxcui":null,"dose":"10mg","frequency":"once daily","route":"oral","duration_days":null,"indication":"Hypertension","prescriber_id":"","prescriber_notes":""}]}
+2025-07-29 10:05:23,586 - MCPServer - INFO - pat: {"blood_pressure_systolic":145,"blood_pressure_diastolic":90,"heart_rate":82,"weight_kg":75.0,"height_cm":165.0,"bmi":27.5,"creatinine_mg_dl":0.8,"creatinine_clearance_ml_min":124.0,"when":"2025-07-29T10:05:08.572242"}
+2025-07-29 10:08:53,788 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:08:54,042 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:08:54,042 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:08:58,544 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:08:58,559 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:08:58,559 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:09:22,428 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 10:21:13,509 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:21:13,753 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:21:13,753 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:21:18,240 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:21:18,260 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:21:18,264 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:25:23,061 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 10:25:40,012 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:25:49,030 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:26:19,759 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:26:29,360 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:26:43,959 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:27:07,667 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:30:46,780 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:30:47,017 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:30:47,019 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:30:51,461 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:30:51,472 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:30:51,476 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:31:33,467 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 10:31:42,236 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:32:32,853 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:32:33,096 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:32:33,096 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:32:37,628 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:32:37,656 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:32:37,660 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:32:48,058 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-29 10:32:54,055 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:33:14,286 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:33:26,736 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:33:38,786 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:33:51,601 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:34:38,359 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:34:38,616 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:34:38,616 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:34:43,166 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:34:43,183 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:34:43,183 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:34:51,535 - root - WARNING - Failed to validate request: Received request before initialization was complete
+2025-07-29 10:34:56,972 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:35:08,316 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 10:35:15,975 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:36:38,827 - MCPServer - INFO - Loading Patient Data
+2025-07-29 10:36:39,067 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 10:36:39,067 - MCPServer - INFO - Loading Visit Data
+2025-07-29 10:36:43,579 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 10:36:43,595 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 10:36:43,595 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 10:37:43,622 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:37:53,256 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-29 10:38:05,145 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:38:18,524 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:38:33,044 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 10:38:51,523 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-29 11:05:39,112 - MCPServer - INFO - Loading Patient Data
+2025-07-29 11:05:39,359 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 11:05:39,375 - MCPServer - INFO - Loading Visit Data
+2025-07-29 11:05:43,963 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 11:05:43,985 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 11:05:43,994 - MCPServer - INFO - Loaded Transcript Data
+2025-07-29 11:06:08,953 - MCPServer - INFO - Loading Patient Data
+2025-07-29 11:06:09,202 - MCPServer - INFO - Loaded Patient Data
+2025-07-29 11:06:09,202 - MCPServer - INFO - Loading Visit Data
+2025-07-29 11:06:13,719 - MCPServer - INFO - Loaded Visit Data
+2025-07-29 11:06:13,719 - MCPServer - INFO - Loading Transcript Data
+2025-07-29 11:06:13,736 - MCPServer - INFO - Loaded Transcript Data
