@@ -16,16 +16,6 @@ from wxo_bootcamp_enum_constants import (
 # =============================================================================
 
 
-class PatientIDInput(BaseModel):
-    """Contains the patient id"""
-
-    model_config = ConfigDict(
-        use_enum_values=True, validate_assignment=True, str_strip_whitespace=True
-    )
-
-    patient_id: str = Field(..., description="The patient id", min_length=1)
-
-
 class Condition(BaseModel):
     """Medical condition/diagnosis"""
 
@@ -85,13 +75,14 @@ class VitalSigns(BaseModel):
         default=None, gt=0, description="Kidney function marker"
     )
     creatinine_clearance_ml_min: Optional[float] = Field(default=None, gt=0)
-    when: datetime = Field(
-        default_factory=datetime.now, description="When were these values updated"
+    when: str = Field(
+        default_factory=datetime.now().isoformat,
+        description="When were these values updated",
     )
 
-    @field_serializer("when")
-    def serialize_datetime(self, dt: datetime, _info) -> str:
-        return dt.isoformat()
+    #    @field_serializer("when")
+    #    def serialize_datetime(self, dt: datetime, _info) -> str:
+    #        return dt.isoformat()
 
     @model_validator(mode="after")
     def auto_calculate_fields(self):
@@ -159,11 +150,14 @@ class Patient(BaseModel):
     insurance_id: Optional[str] = Field(
         default=None, description="Anonymized insurance identifier"
     )
-    created_date: datetime = Field(default_factory=datetime.now)
+    created_date: str = Field(
+        default_factory=datetime.now().isoformat,
+        description="When was this patient created",
+    )
 
-    @field_serializer("created_date")
-    def serialize_datetime(self, dt: datetime, _info) -> str:
-        return dt.isoformat()
+    #    @field_serializer("created_date")
+    #    def serialize_datetime(self, dt: datetime, _info) -> str:
+    #        return dt.isoformat()
 
     @model_validator(mode="after")
     def validate_pregnancy_logic(self):
@@ -259,13 +253,15 @@ class DrugInformation(BaseModel):
         ..., description="Is the drug a controlled substance"
     )
     source_apis: List[str] = Field(..., description="Where the info was sourced from")
-    last_updated: datetime = Field(
-        default_factory=datetime.now, description="When were these records updated"
+    last_updated: str = Field(
+        default_factory=datetime.now().isoformat,
+        description="When were these records updated",
     )
 
-    @field_serializer("last_updated")
-    def serialize_datetime(self, dt: datetime, _info) -> str:
-        return dt.isoformat()
+
+#    @field_serializer("last_updated")
+#    def serialize_datetime(self, dt: datetime, _info) -> str:
+#        return dt.isoformat()
 
 
 class DrugInteraction(BaseModel):

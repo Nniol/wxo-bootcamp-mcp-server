@@ -3,16 +3,13 @@ import asyncio
 import json
 import logging
 
-from typing import Dict, Optional, Any
+from typing import Dict, Optional
 
 import pandas as pd
 
 from fastmcp.server import Context
 from fastmcp.server import FastMCP
 # from mcp.types import SamplingMessage, TextContent
-
-from models.data_endinner_adv_models import PatientData, VisitData
-from models.wxo_bootcamp_models import VitalSigns
 
 from data.wxo_bootcamp_data import (
     SAMPLE_BED_SIDE_DATA_SERVER,
@@ -24,6 +21,7 @@ from data.wxo_bootcamp_data import (
     ALTERNATIVE_TREATMENTS,
 )
 
+from models.data_endinner_adv_models import PatientData, VisitData
 from models.wxo_bootcamp_models import (
     AlternativeTreatment,
     ContraindicationRule,
@@ -32,7 +30,9 @@ from models.wxo_bootcamp_models import (
     DrugInteraction,
     MedicalServerOutput,
     Patient360,
+    VitalSigns,
 )
+from util.pydantic_to_mcp import pydantic_to_mcp_schema
 from wxo_bootcamp_enum_constants import Gender
 
 logging.basicConfig(
@@ -48,18 +48,6 @@ mcp = FastMCP("hospital-data-server")
 patient_dict: Dict[int, PatientData] = {}
 visit_dict: Dict[int, VisitData] = {}
 transcripts: Dict[int, str] = {}
-
-
-# Convert to MCP output_schema format
-def pydantic_to_mcp_schema(model_class) -> dict[str, Any]:
-    json_schema = model_class.model_json_schema()
-
-    # MCP expects the schema without the top-level wrapper
-    return {
-        "type": "object",
-        "properties": json_schema.get("properties", {}),
-        "required": json_schema.get("required", []),
-    }
 
 
 def load_patient_csv() -> Dict[int, PatientData]:
@@ -114,7 +102,11 @@ def load_transcripts_json() -> Dict[int, str]:
     return data
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Patient Data",
+    description="Returns basic patient data (Name, Age, Sex etc.), or raise an Exception if not found.",
+    output_schema=pydantic_to_mcp_schema(PatientData),
+)
 async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
     """Get Patient Data
 
@@ -133,7 +125,11 @@ async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
     raise Exception("patient_id not found")
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Visit Data",
+    description="Returns the data describing the result of a visit to a hospital doctor, or raise an Exception if not found.",
+    output_schema=pydantic_to_mcp_schema(VisitData),
+)
 async def get_visit_data(visit_id: int, ctx: Context) -> VisitData:
     """Get Visit Data
 
@@ -152,7 +148,10 @@ async def get_visit_data(visit_id: int, ctx: Context) -> VisitData:
     raise Exception("visit_id not found")
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Visit Transcript",
+    description="Returns the transcript of a visit, or raise an Exception if not found.",
+)
 async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
     """Get Transcript of the Vist
 
@@ -171,7 +170,11 @@ async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
     raise Exception("visit_id not found")
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Vital Signs Information",
+    description="Returns patient vital signs from the bedside system (Blood pressure, pulse, creatine data, bmi, weight, height) or None.",
+    output_schema=pydantic_to_mcp_schema(VitalSigns),
+)
 def wxobc_get_vital_signs_data_tool(
     patient_id: str, age: int, sex: str
 ) -> Optional[VitalSigns]:
@@ -196,15 +199,19 @@ def wxobc_get_vital_signs_data_tool(
     return vs
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Patient Information",
+    description="Returns basic patient information from the healthcare database including personal details, contact information and insurance data or None.",
+    output_schema=pydantic_to_mcp_schema(Patient),
+)
 def wxobc_get_patient_information_tool(
     patient_id: str,
 ) -> Optional[Patient]:
     """
-    Retrieves basic patient informiotn by patient ID.
+    Retrieves basic patient information by patient ID.
 
-    This function fetches comprehensive patient information from the healthcare database
-    including personal details, contact information, insurance data, and medical history.
+    This function fetches bsaic patient information from the healthcare database
+    including personal details, contact information and insurance data.
 
     Args:
         patient_id (str): The unique patient identifier. Must be a valid patient ID
@@ -217,7 +224,11 @@ def wxobc_get_patient_information_tool(
     return SAMPLE_PATIENTS.get(patient_id)
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Medical Information",
+    description="Returns comprehensive patient medical inforamation regarding the diagnosis (condition), allergies and any given prescriptions or None",
+    output_schema=pydantic_to_mcp_schema(MedicalServerOutput),
+)
 def wxobc_get_medical_information_tool(
     patient_id: str,
 ) -> Optional[MedicalServerOutput]:
@@ -225,7 +236,7 @@ def wxobc_get_medical_information_tool(
     Retrieves patient diagnosis (conditions), allergies and prescription
 
     This function fetches comprehensive patient medical inforamation regarding the diagnosis (condition), allergies and
-    the given prescription
+    any given prescriptions
 
     Args:
         patient_id (str): The unique patient identifier. Must be a valid patient ID
@@ -237,7 +248,11 @@ def wxobc_get_medical_information_tool(
     return SAMPLE_MEDICAL_SERVER.get(patient_id)
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Drug Information",
+    description="Returns comprehensive drug medical inforamation for a given drug or None",
+    output_schema=pydantic_to_mcp_schema(DrugInformation),
+)
 def wxobc_get_drug_data_from_name_tool(drug_name: str) -> Optional[DrugInformation]:
     """
     Retrieves information about a drug
@@ -248,12 +263,16 @@ def wxobc_get_drug_data_from_name_tool(drug_name: str) -> Optional[DrugInformati
         drug_name (str): The unique name of the drug
 
     Returns:
-        List[DrugInformation]: If a record exists for the drug
+        Optional[DrugInformation]: If a record exists for the drug
     """
     return DRUG_DATABASE.get(drug_name.lower())
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Drug Interations",
+    description="Returns comprehensive drug interaction medical inforamation for two given drugs or None",
+    output_schema=pydantic_to_mcp_schema(DrugInteraction),
+)
 def wxobc_get_drug_interactions_tool(
     drug_name_1: str, drug_name_2: str
 ) -> Optional[DrugInteraction]:
@@ -279,7 +298,11 @@ def wxobc_get_drug_interactions_tool(
     return interaction
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Drug Contraindications",
+    description="Returns comprehensive drug contraindication medical inforamation for a given drug or None",
+    output_schema=pydantic_to_mcp_schema(ContraindicationRule),
+)
 def wxobc_get_drug_contrindications_from_drug_name_tool(
     drug_name: str,
 ) -> Optional[ContraindicationRule]:
@@ -300,7 +323,11 @@ def wxobc_get_drug_contrindications_from_drug_name_tool(
     return contraindication
 
 
-@mcp.tool()
+@mcp.tool(
+    name="Get Drug Alternative Treatments",
+    description="Retrieves information about alternative treatments for a given drug or None",
+    output_schema=pydantic_to_mcp_schema(AlternativeTreatment),
+)
 def wxobc_get_alternative_treatment_from_drug_name_tool(
     drug_name: str,
 ) -> AlternativeTreatment | None:
@@ -323,7 +350,7 @@ def wxobc_get_alternative_treatment_from_drug_name_tool(
 
 
 @mcp.tool(
-    name="create_patient_360_tool",
+    name="Get Patient360",
     description="Given a patient id, construct a 360 view of a patient, their information, medical data and most recent vital signs",
     output_schema=pydantic_to_mcp_schema(Patient360),
 )
@@ -350,10 +377,10 @@ async def main():
     await mcp.run_async(transport="sse", host="localhost", port=8000)
 
 
-if __name__ == "__main__":
-    print("Starting MCP server with SSE transport on http://localhost:8000")
-    print("SSE endpoint: http://localhost:8000/sse")
-    print("Messages endpoint: http://localhost:8000/messages")
+# if __name__ == "__main__":
+#     print("Starting MCP server with SSE transport on http://localhost:8000")
+#     print("SSE endpoint: http://localhost:8000/sse")
+#     print("Messages endpoint: http://localhost:8000/messages")
 
-    # Run the server
-    asyncio.run(main())
+#     # Run the server
+#     asyncio.run(main())
