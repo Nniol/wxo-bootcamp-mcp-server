@@ -9,5 +9,11 @@ The data is entirely made up and bears no linkage and or repsentation to any per
 Need two terminal:
 
  1. ```cd src```
- 1. ```uv run -m hospital_data_server.app```   : Run the server
- 2. ```npx @modelcontextprotocol/inspector```  : Run the inspector for testing
+ 2. ```uv run -m hospital_data_server.app```   : Run the server
+ 3. ```npx @modelcontextprotocol/inspector```  : Run the inspector for testing
+
+
+### Podman
+ 1. from root
+ 2. podman build .
+ 3. podman run -p 8080:8080 [Container ID]                              
