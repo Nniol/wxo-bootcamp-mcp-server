@@ -15,7 +15,7 @@ Homepage = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server"
 "Bug Tracker" = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server/issues"
 
 [project.scripts]
-mcp-hospital-data-server = "hosptital_data_server.app:main"
+mcp-hospital-data-server = "hospital_data_server.app:main"
 
 
 [tool.setuptools.package-dir]
