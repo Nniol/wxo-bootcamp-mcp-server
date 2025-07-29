@@ -175,9 +175,7 @@ async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
     description="Returns patient vital signs from the bedside system (Blood pressure, pulse, creatine data, bmi, weight, height) or None.",
     output_schema=pydantic_to_mcp_schema(VitalSigns),
 )
-def wxobc_get_vital_signs_data_tool(
-    patient_id: str, age: int, sex: str
-) -> Optional[VitalSigns]:
+def wxobc_get_vital_signs_data_tool(patient_id: str, age: int, sex: str) -> Optional[VitalSigns]:
     """
     Retrieves patient vital signs data for a given patient id.
 
@@ -273,9 +271,7 @@ def wxobc_get_drug_data_from_name_tool(drug_name: str) -> Optional[DrugInformati
     description="Returns comprehensive drug interaction medical inforamation for two given drugs or None",
     output_schema=pydantic_to_mcp_schema(DrugInteraction),
 )
-def wxobc_get_drug_interactions_tool(
-    drug_name_1: str, drug_name_2: str
-) -> Optional[DrugInteraction]:
+def wxobc_get_drug_interactions_tool(drug_name_1: str, drug_name_2: str) -> Optional[DrugInteraction]:
     """
     Retrieves information about interactions between two drugs
 
@@ -288,13 +284,9 @@ def wxobc_get_drug_interactions_tool(
     Returns:
         Optional[DrugInteraction]: If an interaction is found
     """
-    interaction: Optional[DrugInteraction] = DRUG_INTERACTIONS.get(
-        f"{drug_name_1.lower()}_{drug_name_2.lower()}"
-    )
+    interaction: Optional[DrugInteraction] = DRUG_INTERACTIONS.get(f"{drug_name_1.lower()}_{drug_name_2.lower()}")
     if not interaction:
-        interaction = DRUG_INTERACTIONS.get(
-            f"{drug_name_2.lower()}_{drug_name_1.lower()}"
-        )
+        interaction = DRUG_INTERACTIONS.get(f"{drug_name_2.lower()}_{drug_name_1.lower()}")
     return interaction
 
 
@@ -317,9 +309,7 @@ def wxobc_get_drug_contrindications_from_drug_name_tool(
     Returns:
         Optional[ContraindicationRule]: if contraindications exist for the drug
     """
-    contraindication: Optional[ContraindicationRule] = CONTRAINDICATION_RULES.get(
-        drug_name.lower()
-    )
+    contraindication: Optional[ContraindicationRule] = CONTRAINDICATION_RULES.get(drug_name.lower())
     return contraindication
 
 
@@ -343,9 +333,7 @@ def wxobc_get_alternative_treatment_from_drug_name_tool(
         Optional[AlternativeTreatment]: if alternative treatments exist for a drug
     """
 
-    alt_treatment: Optional[AlternativeTreatment] = ALTERNATIVE_TREATMENTS.get(
-        drug_name.lower()
-    )
+    alt_treatment: Optional[AlternativeTreatment] = ALTERNATIVE_TREATMENTS.get(drug_name.lower())
     return alt_treatment
 
 

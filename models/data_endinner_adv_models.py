@@ -9,9 +9,7 @@ class PatientData(BaseModel):
     age: int = Field(description="The patienbt's age")
     sex: str = Field(description="The patient's gender")
     zip_code: int = Field(description="The patient's zip code")
-    personality: str = Field(
-        description="The personality of the patient. Used when generating transcripts"
-    )
+    personality: str = Field(description="The personality of the patient. Used when generating transcripts")
 
 
 class VisitData(BaseModel):

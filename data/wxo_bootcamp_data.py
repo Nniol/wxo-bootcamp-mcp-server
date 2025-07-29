@@ -148,12 +148,8 @@ SAMPLE_CONDITIONS: Dict[str, Condition] = {
 }
 
 SAMPLE_ALLERGIES: Dict[str, Allergy] = {
-    "penicillin": Allergy(
-        allergen="penicillin", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"
-    ),
-    "sulfonamides": Allergy(
-        allergen="sulfonamides", severity=RiskLevel.MODERATE, reaction_type="skin rash"
-    ),
+    "penicillin": Allergy(allergen="penicillin", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
+    "sulfonamides": Allergy(allergen="sulfonamides", severity=RiskLevel.MODERATE, reaction_type="skin rash"),
     "ibuprofen": Allergy(
         allergen="ibuprofen",
         severity=RiskLevel.MODERATE,
@@ -169,9 +165,7 @@ SAMPLE_ALLERGIES: Dict[str, Allergy] = {
         severity=RiskLevel.MODERATE,
         reaction_type="contact dermatitis",
     ),
-    "shellfish": Allergy(
-        allergen="shellfish", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"
-    ),
+    "shellfish": Allergy(allergen="shellfish", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
 }
 
 # Sample patients designed to test various scenarios

@@ -19,9 +19,7 @@ from wxo_bootcamp_enum_constants import (
 class Condition(BaseModel):
     """Medical condition/diagnosis"""
 
-    model_config = ConfigDict(
-        use_enum_values=True, validate_assignment=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(use_enum_values=True, validate_assignment=True, str_strip_whitespace=True)
 
     condition_id: str = Field(..., min_length=1)
     name: str = Field(..., min_length=1)
@@ -40,9 +38,7 @@ class Condition(BaseModel):
 class Allergy(BaseModel):
     """Patient allergy information"""
 
-    model_config = ConfigDict(
-        use_enum_values=True, validate_assignment=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(use_enum_values=True, validate_assignment=True, str_strip_whitespace=True)
 
     allergen: str = Field(..., min_length=1, max_length=100)
     severity: RiskLevel
@@ -71,9 +67,7 @@ class VitalSigns(BaseModel):
     weight_kg: Optional[float] = Field(default=None, gt=0, le=500)
     height_cm: Optional[float] = Field(default=None, gt=0, le=300)
     bmi: Optional[float] = Field(default=None, ge=10, le=100)
-    creatinine_mg_dl: Optional[float] = Field(
-        default=None, gt=0, description="Kidney function marker"
-    )
+    creatinine_mg_dl: Optional[float] = Field(default=None, gt=0, description="Kidney function marker")
     creatinine_clearance_ml_min: Optional[float] = Field(default=None, gt=0)
     when: str = Field(
         default_factory=datetime.now().isoformat,
@@ -128,18 +122,13 @@ class VitalSigns(BaseModel):
 
     def has_kidney_impairment(self) -> bool:
         """Check if patient has kidney impairment (CrCl <60 mL/min)"""
-        return (
-            self.creatinine_clearance_ml_min is not None
-            and self.creatinine_clearance_ml_min < 60
-        )
+        return self.creatinine_clearance_ml_min is not None and self.creatinine_clearance_ml_min < 60
 
 
 class Patient(BaseModel):
     """Patient demographic and clinical information"""
 
-    model_config = ConfigDict(
-        use_enum_values=True, validate_assignment=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(use_enum_values=True, validate_assignment=True, str_strip_whitespace=True)
 
     patient_id: str = Field(..., min_length=1)
     age: int = Field(..., ge=0, le=150)
@@ -147,9 +136,7 @@ class Patient(BaseModel):
     pregnant: bool = Field(default=False)
     breastfeeding: bool = Field(default=False)
     pregnancy_trimester: Optional[int] = Field(default=None, ge=0, le=3)
-    insurance_id: Optional[str] = Field(
-        default=None, description="Anonymized insurance identifier"
-    )
+    insurance_id: Optional[str] = Field(default=None, description="Anonymized insurance identifier")
     created_date: str = Field(
         default_factory=datetime.now().isoformat,
         description="When was this patient created",
@@ -167,11 +154,7 @@ class Patient(BaseModel):
             raise ValueError("Only females can be pregnant or breastfeeding")
 
         # Pregnancy trimester only valid if pregnant
-        if (
-            self.pregnancy_trimester is not None
-            and self.pregnancy_trimester > 0
-            and not self.pregnant
-        ):
+        if self.pregnancy_trimester is not None and self.pregnancy_trimester > 0 and not self.pregnant:
             raise ValueError("Pregnancy trimester only valid if pregnant")
 
         return self
@@ -192,23 +175,13 @@ class Prescription(BaseModel):
 
     prescription_id: str = Field(..., min_length=1)
     drug_name: str = Field(..., min_length=1, description="Generic name for API lookup")
-    brand_name: Optional[str] = Field(
-        default=None, description="The brand name of the drug"
-    )
+    brand_name: Optional[str] = Field(default=None, description="The brand name of the drug")
     ndc_code: Optional[str] = Field(default=None, description="National Drug Code")
-    rxcui: Optional[str] = Field(
-        default=None, description="RxNorm Concept Unique Identifier"
-    )
+    rxcui: Optional[str] = Field(default=None, description="RxNorm Concept Unique Identifier")
     dose: str = Field(default="", description="Dosage for the prescription")
-    frequency: str = Field(
-        default="", description="How often to take the dose of the drug"
-    )
-    route: str = Field(
-        default="oral", description="Administration route: oral, IV, topical, etc."
-    )
-    duration_days: Optional[int] = Field(
-        default=None, ge=1, description="For how many days to take the drug"
-    )
+    frequency: str = Field(default="", description="How often to take the dose of the drug")
+    route: str = Field(default="oral", description="Administration route: oral, IV, topical, etc.")
+    duration_days: Optional[int] = Field(default=None, ge=1, description="For how many days to take the drug")
     indication: str = Field(default="")
     prescriber_id: str = Field(default="", description="Anonymized prescriber ID")
     prescriber_notes: str = Field(default="")
@@ -224,34 +197,22 @@ class Prescription(BaseModel):
 class DrugInformation(BaseModel):
     """Structured drug information from API responses"""
 
-    model_config = ConfigDict(
-        validate_assignment=True, use_enum_values=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(validate_assignment=True, use_enum_values=True, str_strip_whitespace=True)
 
     drug_name: str = Field(..., description="Name of the drug", min_length=1)
     brand_names: Optional[List[str]] = Field(default=None, description="Brand names")
     ndc_codes: List[str] = Field(default_factory=list, description="NDC Codes")
     rxcui: Optional[str] = Field(default=None, description="RxNorm identifier")
-    drug_class: Optional[str] = Field(
-        default=None, description="What type of drug is it"
-    )
+    drug_class: Optional[str] = Field(default=None, description="What type of drug is it")
     mechanism: Optional[str] = Field(default=None, description="How it works")
-    indications: List[str] = Field(
-        default_factory=list, description="When should you use it"
-    )
-    contraindications: List[str] = Field(
-        default_factory=list, description="When you should not use it"
-    )
-    warnings: List[str] = Field(
-        default_factory=list, description="Warnings about the drug"
-    )
+    indications: List[str] = Field(default_factory=list, description="When should you use it")
+    contraindications: List[str] = Field(default_factory=list, description="When you should not use it")
+    warnings: List[str] = Field(default_factory=list, description="Warnings about the drug")
     pregnancy_category: Optional[PregnancyCategory] = Field(
         default=PregnancyCategory.A,
         description="Can the drug be used on pregnant people",
     )
-    controlled_substance: bool = Field(
-        ..., description="Is the drug a controlled substance"
-    )
+    controlled_substance: bool = Field(..., description="Is the drug a controlled substance")
     source_apis: List[str] = Field(..., description="Where the info was sourced from")
     last_updated: str = Field(
         default_factory=datetime.now().isoformat,
@@ -267,24 +228,14 @@ class DrugInformation(BaseModel):
 class DrugInteraction(BaseModel):
     """Drug interaction information"""
 
-    model_config = ConfigDict(
-        use_enum_values=True, validate_assignment=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(use_enum_values=True, validate_assignment=True, str_strip_whitespace=True)
 
-    interaction_id: str = Field(
-        ..., description="Unique identifier for the interaction", min_length=1
-    )
+    interaction_id: str = Field(..., description="Unique identifier for the interaction", min_length=1)
     drug1: str = Field(..., description="First drug in the interaction", min_length=1)
     drug2: str = Field(..., description="Second drug in the interaction", min_length=1)
-    severity: InteractionSeverity = Field(
-        ..., description="Severity level of the interaction"
-    )
-    mechanism: str = Field(
-        ..., description="Mechanism of the drug interaction", min_length=1
-    )
-    clinical_effect: str = Field(
-        ..., description="Clinical effect of the interaction", min_length=1
-    )
+    severity: InteractionSeverity = Field(..., description="Severity level of the interaction")
+    mechanism: str = Field(..., description="Mechanism of the drug interaction", min_length=1)
+    clinical_effect: str = Field(..., description="Clinical effect of the interaction", min_length=1)
     management: str = Field(..., description="Management recommendations", min_length=1)
 
 
@@ -356,15 +307,9 @@ class AlternativeDrug(BaseModel):
 
     model_config = ConfigDict(validate_assignment=True, str_strip_whitespace=True)
 
-    rationale: str = Field(
-        ..., description="Rationale for the alternative", min_length=1
-    )
-    safety_improvement: str = Field(
-        ..., description="How safety is improved", min_length=1
-    )
-    efficacy_comparison: str = Field(
-        ..., description="Efficacy comparison with original drug", min_length=1
-    )
+    rationale: str = Field(..., description="Rationale for the alternative", min_length=1)
+    safety_improvement: str = Field(..., description="How safety is improved", min_length=1)
+    efficacy_comparison: str = Field(..., description="Efficacy comparison with original drug", min_length=1)
 
 
 class AlternativeTreatment(BaseModel):
@@ -372,15 +317,9 @@ class AlternativeTreatment(BaseModel):
 
     model_config = ConfigDict(validate_assignment=True, str_strip_whitespace=True)
 
-    original_drug: str = Field(
-        ..., description="Original drug being replaced", min_length=1
-    )
-    alternatives: Dict[str, AlternativeDrug] = Field(
-        ..., description="Dictionary of alternative drugs"
-    )
-    conditions: List[str] = Field(
-        ..., description="Conditions where alternatives are recommended"
-    )
+    original_drug: str = Field(..., description="Original drug being replaced", min_length=1)
+    alternatives: Dict[str, AlternativeDrug] = Field(..., description="Dictionary of alternative drugs")
+    conditions: List[str] = Field(..., description="Conditions where alternatives are recommended")
 
 
 class MedicalServerOutput(BaseModel):
@@ -388,9 +327,7 @@ class MedicalServerOutput(BaseModel):
     Groups data about a patient's Conditions (diagnoses), Allergies and Prescriptions
     """
 
-    model_config = ConfigDict(
-        validate_assignment=True, use_enum_values=True, str_strip_whitespace=True
-    )
+    model_config = ConfigDict(validate_assignment=True, use_enum_values=True, str_strip_whitespace=True)
 
     conditions: List[str] = Field(
         default_factory=list,
@@ -400,9 +337,7 @@ class MedicalServerOutput(BaseModel):
         default_factory=list,
         description="List of allergies a patient has, blank if none",
     )
-    prescriptions: List[Prescription] = Field(
-        default_factory=list, description="List of prescriptions a patient has"
-    )
+    prescriptions: List[Prescription] = Field(default_factory=list, description="List of prescriptions a patient has")
 
 
 class Patient360(BaseModel):
@@ -410,29 +345,17 @@ class Patient360(BaseModel):
 
     model_config = ConfigDict(validate_assignment=True, use_enum_values=True)
 
-    information: Optional[Patient] = Field(
-        description="Basic information about a patient"
-    )
-    medical: Optional[MedicalServerOutput] = Field(
-        description="List of conditions, allergies and prescriptions a patient has"
-    )
-    vital_signs: Optional[VitalSigns] = Field(
-        description="Most recent vital signs of a patient"
-    )
+    information: Optional[Patient] = Field(description="Basic information about a patient")
+    medical: Optional[MedicalServerOutput] = Field(description="List of conditions, allergies and prescriptions a patient has")
+    vital_signs: Optional[VitalSigns] = Field(description="Most recent vital signs of a patient")
 
     @model_validator(mode="after")
     def auto_calculate_vitals(self):
         """Auto-calculate vital sign derived values"""
         if self.vital_signs and self.information.age and self.information.sex:
             # Auto-calculate creatinine clearance if not provided
-            if (
-                not self.vital_signs.creatinine_clearance_ml_min
-                and self.vital_signs.creatinine_mg_dl
-                and self.vital_signs.weight_kg
-            ):
-                clearance = (
-                    (140 - self.information.age) * self.vital_signs.weight_kg
-                ) / (72 * self.vital_signs.creatinine_mg_dl)
+            if not self.vital_signs.creatinine_clearance_ml_min and self.vital_signs.creatinine_mg_dl and self.vital_signs.weight_kg:
+                clearance = ((140 - self.information.age) * self.vital_signs.weight_kg) / (72 * self.vital_signs.creatinine_mg_dl)
                 if self.information.sex.upper() == "F":
                     clearance *= 0.85
                 self.vital_signs.creatinine_clearance_ml_min = round(clearance, 1)
