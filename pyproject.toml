@@ -17,9 +17,11 @@ Homepage = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server"
 [project.scripts]
 mcp-hospital-data-server = "hospital_data_server.app:main"
 
-
 [tool.setuptools.package-dir]
 "" = "src"
+
+[tool.setuptools.package-data]
+hospital_data_server = ["data/*.csv", "data/*.json"]
 
 [dependency-groups]
 dev = [

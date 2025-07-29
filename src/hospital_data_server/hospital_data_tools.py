@@ -1,18 +1,19 @@
 import ast
 
-# import asyncio
+import asyncio
 import json
 import logging
 
 from typing import Dict, Optional
-
+from pathlib import Path
+from importlib import resources
 import pandas as pd
 
 from fastmcp.server import Context
 from fastmcp.server import FastMCP
 # from mcp.types import SamplingMessage, TextContent
 
-from data.wxo_bootcamp_data import (
+from .data.wxo_bootcamp_data import (
     SAMPLE_BED_SIDE_DATA_SERVER,
     SAMPLE_MEDICAL_SERVER,
     SAMPLE_PATIENTS,
@@ -22,8 +23,8 @@ from data.wxo_bootcamp_data import (
     ALTERNATIVE_TREATMENTS,
 )
 
-from models.data_endinner_adv_models import PatientData, VisitData
-from models.wxo_bootcamp_models import (
+from .models.data_endinner_adv_models import PatientData, VisitData
+from .models.wxo_bootcamp_models import (
     AlternativeTreatment,
     ContraindicationRule,
     Patient,
@@ -33,8 +34,8 @@ from models.wxo_bootcamp_models import (
     Patient360,
     VitalSigns,
 )
-from util.pydantic_to_mcp import pydantic_to_mcp_schema
-from wxo_bootcamp_enum_constants import Gender
+from .util.pydantic_to_mcp import pydantic_to_mcp_schema
+from .wxo_bootcamp_enum_constants import Gender
 
 logging.basicConfig(
     level=logging.INFO,
@@ -43,8 +44,10 @@ logging.basicConfig(
 )
 log = logging.getLogger("MCPServer")
 # log.setLevel(logging.DEBUG)
-mcp = FastMCP("hospital-data-server")
 
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+mcp = FastMCP("hospital-data-server")
 
 patient_dict: Dict[int, PatientData] = {}
 visit_dict: Dict[int, VisitData] = {}
@@ -53,8 +56,22 @@ transcripts: Dict[int, str] = {}
 
 def load_patient_csv() -> Dict[int, PatientData]:
     log.info("Loading Patient Data")
-    df = pd.read_csv("data/patients.csv")
+    try:
+        # Modern approach using files()
+        data_files = resources.files("hospital_data_server.data")
+        patients_file = data_files / "patients.csv"
+        with patients_file.open("r") as f:
+            df = pd.read_csv(f)
+    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
+        # Fallback for development or older Python
+        current_dir = Path(__file__).parent
+        data_path = current_dir / "data" / "patients.csv"
+        if not data_path.exists():
+            project_root = current_dir.parent.parent
+            data_path = project_root / "data" / "patients.csv"
+        df = pd.read_csv(data_path)
     t_dict = df.to_dict("records")
+
     d_dict: Dict[int, PatientData] = {
         int(d["PatientID"]): PatientData(
             patient_id=int(d["PatientID"]),
@@ -72,8 +89,21 @@ def load_patient_csv() -> Dict[int, PatientData]:
 
 def load_visit_csv() -> Dict[int, VisitData]:
     log.info("Loading Visit Data")
-    df = pd.read_csv("data/visits.csv")
+    try:
+        data_files = resources.files("hospital_data_server.data")
+        visits_file = data_files / "visits.csv"
+        with visits_file.open("r") as f:
+            df = pd.read_csv(f)
+    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
+        current_dir = Path(__file__).parent
+        data_path = current_dir / "data" / "visits.csv"
+        if not data_path.exists():
+            project_root = current_dir.parent.parent
+            data_path = project_root / "data" / "visits.csv"
+        df = pd.read_csv(data_path)
+
     t_dict = df.to_dict("records")
+
     d_dict: Dict[int, VisitData] = {
         int(d["VisitID"]): VisitData(
             visit_id=int(d["VisitID"]),
@@ -97,10 +127,21 @@ def load_visit_csv() -> Dict[int, VisitData]:
 
 def load_transcripts_json() -> Dict[int, str]:
     log.info("Loading Transcript Data")
-    with open("data/1000_transcripts.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-    log.info("Loaded Transcript Data")
-    return data
+    try:
+        data_files = resources.files("hospital_data_server.data")
+        transcripts_file = data_files / "1000_transcripts.json"
+        with transcripts_file.open("r") as f:
+            transcripts = json.load(f)
+    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
+        current_dir = Path(__file__).parent
+        data_path = current_dir / "data" / "1000_transcripts.json"
+        if not data_path.exists():
+            project_root = current_dir.parent.parent
+            data_path = project_root / "data" / "1000_transcripts.json"
+        with open(data_path, "r") as f:
+            transcripts = json.load(f)
+
+    return transcripts
 
 
 @mcp.tool(
@@ -118,6 +159,7 @@ async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
         PatientData: PatientData Object
     """
     global patient_dict
+    log.info(patient_dict)
     if patient_id in patient_dict:
         patient_data = patient_dict[patient_id]
 
@@ -356,20 +398,50 @@ def wxobc_create_patient_360_tool(patient_id: str) -> Patient360:
     )
 
 
-async def main():
+# Your existing imports and functions...
+
+logger = logging.getLogger(__name__)
+
+
+async def main_async():
+    """Run the MCP server with comprehensive error handling"""
     global patient_dict, visit_dict, transcripts
-    patient_dict = load_patient_csv()
-    visit_dict = load_visit_csv()
-    transcripts = load_transcripts_json()
-    """Run the MCP server with SSE transport"""
-    # Run with SSE transport on localhost:8000
-    await mcp.run_async(transport="sse", host="localhost", port=8000)
+
+    try:
+        logger.info("Loading patient data...")
+        patient_dict = load_patient_csv()
+        logger.info(f"Loaded {len(patient_dict)} patients")
+
+        logger.info("Loading visit data...")
+        visit_dict = load_visit_csv()
+        logger.info(f"Loaded {len(visit_dict)} visits")
+
+        logger.info("Loading transcript data...")
+        transcripts = load_transcripts_json()
+        logger.info(f"Loaded {len(transcripts)} transcripts")
+
+        logger.info("Starting MCP server...")
+        print("Data loaded successfully. Starting server on 0.0.0.0:8080...")
+
+        # Add some debug info about the mcp module
+        logger.info(f"Using MCP version: {getattr(mcp, '__version__', 'unknown')}")
+
+        # Run with SSE transport
+        await mcp.run_async(transport="sse", host="0.0.0.0", port=8080)
+
+    except Exception as e:
+        logger.error(f"Error in main_async: {e}")
+        import traceback
+
+        traceback.print_exc()
+        raise
 
 
-# if __name__ == "__main__":
-#     print("Starting MCP server with SSE transport on http://localhost:8000")
-#     print("SSE endpoint: http://localhost:8000/sse")
-#     print("Messages endpoint: http://localhost:8000/messages")
+# Keep this for backward compatibility if needed
+def main():
+    """Synchronous wrapper for the async main function"""
+    asyncio.run(main_async())
 
-#     # Run the server
-#     asyncio.run(main())
+
+if __name__ == "__main__":
+    main()

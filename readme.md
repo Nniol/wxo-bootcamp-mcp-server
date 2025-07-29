@@ -8,5 +8,6 @@ The data is entirely made up and bears no linkage and or repsentation to any per
 ### Running
 Need two terminal:
 
- 1. ```uv run app.py```   : Run the server
- 2. ```uv run fastmcp dev hosptial_data_set_server.py```  : Run the inspector for testing
+ 1. ```cd src```
+ 1. ```uv run -m hospital_data_server.app```   : Run the server
+ 2. ```npx @modelcontextprotocol/inspector```  : Run the inspector for testing

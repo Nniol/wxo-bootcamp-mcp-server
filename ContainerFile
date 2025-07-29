@@ -30,4 +30,4 @@ USER 1001
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-CMD ["app"]
+CMD ["mcp-hospital-data-server"]

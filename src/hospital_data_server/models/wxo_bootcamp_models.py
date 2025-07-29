@@ -1,10 +1,10 @@
 from datetime import date, datetime
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List
 
 # Pure Pydantic v2 imports only
 from pydantic import BaseModel, Field, model_validator, field_serializer, ConfigDict
 
-from wxo_bootcamp_enum_constants import (
+from ..wxo_bootcamp_enum_constants import (
     RiskLevel,
     PregnancyCategory,
     InteractionSeverity,
@@ -352,7 +352,7 @@ class Patient360(BaseModel):
     @model_validator(mode="after")
     def auto_calculate_vitals(self):
         """Auto-calculate vital sign derived values"""
-        if self.vital_signs and self.information.age and self.information.sex:
+        if self.information and self.vital_signs and self.information.age and self.information.sex:
             # Auto-calculate creatinine clearance if not provided
             if not self.vital_signs.creatinine_clearance_ml_min and self.vital_signs.creatinine_mg_dl and self.vital_signs.weight_kg:
                 clearance = ((140 - self.information.age) * self.vital_signs.weight_kg) / (72 * self.vital_signs.creatinine_mg_dl)
@@ -362,18 +362,18 @@ class Patient360(BaseModel):
 
         return self
 
-    def to_api_query_context(self) -> Dict[str, Any]:
-        """Convert patient data to context for API queries"""
-        return {
-            "age": self.information.age,
-            "sex": self.information.sex,
-            "pregnant": self.information.pregnant,
-            "breastfeeding": self.information.breastfeeding,
-            "pregnancy_trimester": self.information.pregnancy_trimester,
-            "elderly": self.information.is_elderly(),
-            "pediatric": self.information.is_pediatric(),
-            "kidney_impaired": self.vital_signs.has_kidney_impairment(),
-            "conditions": list(self.medical.conditions),
-            "allergies": list(self.medical.allergies),
-            "vital_signs": self.vital_signs.model_dump() if self.vital_signs else None,
-        }
+    # def to_api_query_context(self) -> Dict[str, Any]:
+    #     """Convert patient data to context for API queries"""
+    #     return {
+    #         "age": self.information.age,
+    #         "sex": self.information.sex,
+    #         "pregnant": self.information.pregnant,
+    #         "breastfeeding": self.information.breastfeeding,
+    #         "pregnancy_trimester": self.information.pregnancy_trimester,
+    #         "elderly": self.information.is_elderly(),
+    #         "pediatric": self.information.is_pediatric(),
+    #         "kidney_impaired": self.vital_signs.has_kidney_impairment(),
+    #         "conditions": list(self.medical.conditions),
+    #         "allergies": list(self.medical.allergies),
+    #         "vital_signs": self.vital_signs.model_dump() if self.vital_signs else None,
+    #     }

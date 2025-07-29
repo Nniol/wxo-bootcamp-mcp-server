@@ -1,8 +1,8 @@
 from typing import Dict
 
-from wxo_bootcamp_enum_constants import InteractionSeverity, Gender
+from ..wxo_bootcamp_enum_constants import InteractionSeverity, Gender
 
-from models.wxo_bootcamp_models import (
+from ..models.wxo_bootcamp_models import (
     Patient,
     PregnancyCategory,
     Prescription,
