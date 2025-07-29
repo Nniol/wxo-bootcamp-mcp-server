@@ -9,4 +9,4 @@ The data is entirely made up and bears no linkage and or repsentation to any per
 Need two terminal:
 
  1. ```uv run app.py```   : Run the server
- 2. ```uv run fastmcp dev app.py```  : Run the inspector for testing
+ 2. ```uv run fastmcp dev hosptial_data_set_server.py```  : Run the inspector for testing
