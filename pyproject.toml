@@ -1,13 +1,25 @@
 [project]
 name = "mcp-hospital-data-server"
 version = "0.1.0"
-description = "Add your description here"
+description = "MCP Server for Fake Hosptial Data for Courses"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastmcp>=2.10.6",
     "pandas>=2.3.1",
 ]
+
+
+[project.urls]
+Homepage = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server"
+"Bug Tracker" = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server/issues"
+
+[project.scripts]
+mcp-hospital-data-server = "hosptital_data_server.app:main"
+
+
+[tool.setuptools.package-dir]
+"" = "src"
 
 [dependency-groups]
 dev = [

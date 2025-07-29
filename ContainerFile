@@ -1,0 +1,33 @@
+FROM registry.access.redhat.com/ubi9-minimal:9.6-1752587672
+LABEL maintainer="Benjamin A. Janes" \
+      name="advantage-mcp/mcp-hospital-data-server" \
+      description="MCP Hospital Data Server: An MCP Server for use in courses etc"
+
+ARG PYTHON_VERSION=3.12
+
+# Install Python and build dependencies
+RUN microdnf update -y && \
+    microdnf install -y python${PYTHON_VERSION} python${PYTHON_VERSION}-devel gcc git && \
+    microdnf clean all
+
+# Set default python3
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 1
+
+WORKDIR /app
+
+# Copy source code
+COPY . /app
+
+# Create venv, install pip, pdm, uv, and project deps
+RUN python3 -m venv /app/.venv && \
+    /app/.venv/bin/python3 -m pip install --upgrade pip setuptools pdm uv && \
+    /app/.venv/bin/python3 -m uv pip install .
+
+EXPOSE 8080
+
+# Set the runtime user
+USER 1001
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+CMD ["app"]

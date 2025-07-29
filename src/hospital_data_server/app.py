@@ -1,6 +1,6 @@
 import asyncio
 
-from hosptial_data_set_server import main
+from src.hospital_data_server.hospital_data_tools import main
 
 
 if __name__ == "__main__":
