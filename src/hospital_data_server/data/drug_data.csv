@@ -1,0 +1,71 @@
+Drug Name,Cost Per Packet,Packet Size,Volume,Dose Volume,Shelf Life (Days)
+Ferrous sulfate,5.5,30,0,0,730
+Acyclovir,5.5,25,0,0,730
+Dabigatran,35.0,60,0,0,730
+Ringer's lactate solution,2.5,0,1000,1000,730
+Nitroglycerin cream,10.50,0,30,0,730
+Sodium chloride,2.5,0,100,5,730
+Prednisone,5.50,20,0,0,730
+Paracetamol,2.5,20,0,0,1800
+Phenytoin,5.50,100,0,0,730
+Warfarin,5.50,28,0,0,730
+Levetiracetam,15.50,60,0,0,730
+Sodium polystyrene sulfonate,25.0,0,500,30,730
+Furosemide,5.50,28,0,0,730
+Heparin,25.0,0,100,1,730
+Sulfinpyrazone,15.6,100,0,0,730
+Carbamazepine,15.6,50,0,0,730
+Potassium chloride,5.50,20,0,0,730
+Formoterol,15.6,0,120,2,730
+Ferrous gluconate,5.5,100,0,0,730
+Probenecid,5.50,30,0,0,730
+Docusate Sodium,5.50,100,0,0,730
+Fluticasone,10.50,120,0,0,730
+Oxaliplatin,45.60,0,10,5,730
+Methimazole,5.5,100,0,0,730
+Atenolol,5.50,30,0,0,730
+Ipratropium bromide,5.5,0,20,0.5,730
+Metronidazole,5.5,21,0,0,730
+Methylprednisolone,5.50,20,0,0,730
+Sodium bicarbonate,2.5,100,0,0,730
+Apixaban,25.50,60,0,0,730
+Cyclophosphamide,25.5,0,100,5,730
+Diclofenac,5.50,20,0,0,730
+Bisoprolol,5.5,30,0,0,730
+Metoprolol,5.5,30,0,0,730
+Cisplatin,25.50,0,20,10,730
+Magnesium,5.5,100,0,0,730
+Lidocaine,5.5,10,20,2,730
+Fluorouracil,25.00,10,0,0,730
+Pantoprazole,5.50,28,0,0,730
+Paclitaxel,45.60,0,50,5,730
+Salbutamol,5.5,0,100,2.5,730
+Levothyroxine,5.50,100,0,0,730
+Polyethylene glycol,10.50,100,0,0,730
+Propylthiouracil,15.00,100,0,0,730
+Vincristine,245.5,0,10,1,730
+Valproate,18.00,30,0,0,730
+Doxorubicin,50.00,10,0,0,730
+Omeprazole,5.50,28,0,0,730
+Saline solution,2.5,0,1000,10,730
+Cefazolin,5.5,0,100,1,730
+Ciprofloxacin,5.50,10,0,0,730
+Ceftriaxone,15.5,0,10,1,730
+Amoxicillin,5.50,20,0,0,730
+Amoxicillin-Clavulanate,10.5,20,0,0,730
+Clarithromycin,5.5,14,0,0,730
+Piperacillin-Tazobactam,25.50,0,100,5,365
+Clindamycin,10.50,24,0,0,730
+Levofloxacin,5.50,10,0,0,730
+Azithromycin,10.50,6,0,0,730
+Vancomycin,25.5,0,100,5,365
+Acetaminophen,2.5,20,0,0,365
+Diclofenac,5.50,20,0,0,730
+Lidocaine,5.5,10,20,2,730
+Morphine,25.00,30,0,10,730
+Paracetamol,2.50,20,0,0,1095
+Aspirin,5.5,20,0,0,365
+Ibuprofen,5.50,20,0,0,730
+Tramadol,5.5,20,0,0,730
+Naproxen,5.5,20,0,0,730
+Oxycodone,20.00,30,0,0,730

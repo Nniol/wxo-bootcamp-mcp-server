@@ -333,7 +333,7 @@ class MedicalServerOutput(BaseModel):
         default_factory=list,
         description="Conditions, Diagnoses, Diseases a patient has, blank if none",
     )
-    allergies: List[str] = Field(
+    allergies: List[Allergy] = Field(
         default_factory=list,
         description="List of allergies a patient has, blank if none",
     )

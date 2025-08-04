@@ -1,13 +1,8 @@
-import ast
-
 import asyncio
-import json
 import logging
 
 from typing import Dict, Optional
-from pathlib import Path
-from importlib import resources
-import pandas as pd
+
 
 from fastmcp.server import Context
 from fastmcp.server import FastMCP
@@ -23,7 +18,20 @@ from .data.wxo_bootcamp_data import (
     ALTERNATIVE_TREATMENTS,
 )
 
-from .models.data_endinner_adv_models import PatientData, VisitData
+from .models.data_enginner_adv_models import (
+    PatientData,
+    VisitData,
+    DeviceStockLevel,
+    DeviceSupplier,
+    DrugData,
+    AllDeviceSuppliers,
+    AllDrugSuppliers,
+    DrugStockLevel,
+    DrugSupplier,
+    AllDeviceStockLevels,
+    AllDrugStockLevels,
+)
+
 from .models.wxo_bootcamp_models import (
     AlternativeTreatment,
     ContraindicationRule,
@@ -35,6 +43,16 @@ from .models.wxo_bootcamp_models import (
     VitalSigns,
 )
 from .util.pydantic_to_mcp import pydantic_to_mcp_schema
+from .util.load_data import (
+    load_patient_csv,
+    load_transcripts_json,
+    load_visit_csv,
+    load_device_stocklevels_csv,
+    load_drug_data_csv,
+    load_device_suppliers_csv,
+    load_drug_stocklevels_csv,
+    load_drug_suppliers_csv,
+)
 from .wxo_bootcamp_enum_constants import Gender
 
 logging.basicConfig(
@@ -45,103 +63,18 @@ logging.basicConfig(
 log = logging.getLogger("MCPServer")
 # log.setLevel(logging.DEBUG)
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+# PROJECT_ROOT = Path(__file__).resolve().parent
 
 mcp = FastMCP("hospital-data-server")
 
 patient_dict: Dict[int, PatientData] = {}
 visit_dict: Dict[int, VisitData] = {}
 transcripts: Dict[int, str] = {}
-
-
-def load_patient_csv() -> Dict[int, PatientData]:
-    log.info("Loading Patient Data")
-    try:
-        # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
-        patients_file = data_files / "patients.csv"
-        with patients_file.open("r") as f:
-            df = pd.read_csv(f)
-    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
-        # Fallback for development or older Python
-        current_dir = Path(__file__).parent
-        data_path = current_dir / "data" / "patients.csv"
-        if not data_path.exists():
-            project_root = current_dir.parent.parent
-            data_path = project_root / "data" / "patients.csv"
-        df = pd.read_csv(data_path)
-    t_dict = df.to_dict("records")
-
-    d_dict: Dict[int, PatientData] = {
-        int(d["PatientID"]): PatientData(
-            patient_id=int(d["PatientID"]),
-            name=d["Name"],
-            age=d["Age"],
-            sex=d["Sex"],
-            zip_code=d["zip_code"],
-            personality=d["personality"],
-        )
-        for d in t_dict
-    }
-    log.info("Loaded Patient Data")
-    return d_dict
-
-
-def load_visit_csv() -> Dict[int, VisitData]:
-    log.info("Loading Visit Data")
-    try:
-        data_files = resources.files("hospital_data_server.data")
-        visits_file = data_files / "visits.csv"
-        with visits_file.open("r") as f:
-            df = pd.read_csv(f)
-    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
-        current_dir = Path(__file__).parent
-        data_path = current_dir / "data" / "visits.csv"
-        if not data_path.exists():
-            project_root = current_dir.parent.parent
-            data_path = project_root / "data" / "visits.csv"
-        df = pd.read_csv(data_path)
-
-    t_dict = df.to_dict("records")
-
-    d_dict: Dict[int, VisitData] = {
-        int(d["VisitID"]): VisitData(
-            visit_id=int(d["VisitID"]),
-            patient_id=int(d["PatientID"]),
-            date=d["VisitDate"],
-            chief_complaint=d["ChiefComplaint"],
-            tests=ast.literal_eval(d["Tests"]),
-            diagnosis_from_test=d["DiagnosisFromTest"],
-            diagnosis=d["Diagnosis"],
-            treatment=d["Treatment"],
-            medicines=ast.literal_eval(d["medicines"]),
-            painkillers=ast.literal_eval(d["painkillers"]),
-            antibiotics=ast.literal_eval(d["antibiotics"]),
-            died=d["Died"],
-        )
-        for d in t_dict
-    }
-    log.info("Loaded Visit Data")
-    return d_dict
-
-
-def load_transcripts_json() -> Dict[int, str]:
-    log.info("Loading Transcript Data")
-    try:
-        data_files = resources.files("hospital_data_server.data")
-        transcripts_file = data_files / "1000_transcripts.json"
-        with transcripts_file.open("r") as f:
-            transcripts = json.load(f)
-    except (ImportError, FileNotFoundError, ModuleNotFoundError, AttributeError):
-        current_dir = Path(__file__).parent
-        data_path = current_dir / "data" / "1000_transcripts.json"
-        if not data_path.exists():
-            project_root = current_dir.parent.parent
-            data_path = project_root / "data" / "1000_transcripts.json"
-        with open(data_path, "r") as f:
-            transcripts = json.load(f)
-
-    return transcripts
+device_stock_levels: Dict[str, DeviceStockLevel] = {}
+drug_stock_levels: Dict[str, DrugStockLevel] = {}
+device_suppliers: Dict[int, DeviceSupplier] = {}
+drug_data: Dict[str, DrugData] = {}
+drug_suppliers: Dict[int, DrugSupplier] = {}
 
 
 @mcp.tool(
@@ -186,9 +119,178 @@ async def get_visit_data(visit_id: int, ctx: Context) -> VisitData:
     if visit_id in visit_dict:
         patient_data = visit_dict[visit_id]
 
-        log.debug(patient_data.model_dump_json())
         return patient_data
     raise Exception("visit_id not found")
+
+
+@mcp.tool(
+    name="Get All Device Stock Levels Data",
+    description="Returns the initial stock levels of all devices in the hosptial.",
+    output_schema=pydantic_to_mcp_schema(AllDeviceStockLevels),
+)
+async def get_all_device_stock_levels(ctx: Context) -> AllDeviceStockLevels:
+    """Get All Initial Device Stock Levels
+
+    Returns:
+        AllDeviceStockLevels: All the initial Device Stock Levels
+    """
+    global device_stock_levels
+    return AllDeviceStockLevels(device_stock_levels=list(device_stock_levels.values()))
+
+
+@mcp.tool(
+    name="Get Device Stock Level",
+    description="Returns the initial stock level of a device in the hosptial.",
+    output_schema=pydantic_to_mcp_schema(DeviceStockLevel),
+)
+async def get_device_stock_level(device_name: str, ctx: Context) -> DeviceStockLevel:
+    """Get Initial Device Stock Level ffor a device
+
+    Args:
+        device_name (str): The device name to get the initial stock level for
+
+    Returns:
+        DeviceStockLevel: The DeviceStockLevel object
+    """
+    global device_stock_levels
+    if device_name.lower() in device_stock_levels:
+        device_sl = device_stock_levels[device_name.lower()]
+
+        return device_sl
+    raise Exception("device_name not found")
+
+
+@mcp.tool(
+    name="Get Drug Data",
+    description="Returns the data about a drug.",
+    output_schema=pydantic_to_mcp_schema(DrugData),
+)
+async def get_drug_data(drug_name: str, ctx: Context) -> DrugData:
+    """Get Data on a Drug
+
+    Args:
+        drug_name (str): The drug name to get data for
+
+    Returns:
+        DrugData: The DrugData object
+    """
+    global drug_data
+    if drug_name.lower() in drug_data:
+        drug_data_obj = drug_data[drug_name.lower()]
+
+        return drug_data_obj
+    raise Exception("drug_name not found")
+
+
+@mcp.tool(
+    name="Get Drug Supplier",
+    description="Returns a  drug supplier for the given id.",
+    output_schema=pydantic_to_mcp_schema(DrugSupplier),
+)
+async def get_drug_supplier(supplier_id: int, ctx: Context) -> DrugSupplier:
+    """Get supplier data for the given id
+
+    Args:
+        supplier_id (int): The drug supplier id to get data for
+
+    Returns:
+        DrugSupplier: The DrugSupplier object
+    """
+    global drug_suppliers
+    if supplier_id in drug_suppliers:
+        drug_supplier_obj = drug_suppliers[supplier_id]
+
+        return drug_supplier_obj
+    raise Exception("supplier_id not found")
+
+
+@mcp.tool(
+    name="Get Device Supplier",
+    description="Returns a  Device supplier for the given id.",
+    output_schema=pydantic_to_mcp_schema(DeviceSupplier),
+)
+async def get_device_supplier(supplier_id: int, ctx: Context) -> DeviceSupplier:
+    """Get supplier data for the given id
+
+    Args:
+        supplier_id (int): The device supplier id to get data for
+
+    Returns:
+        DeviceSupplier: The DeviceSupplier object
+    """
+    global device_suppliers
+    if supplier_id in drug_suppliers:
+        device_supplier_obj = device_suppliers[supplier_id]
+
+        return device_supplier_obj
+    raise Exception("supplier_id not found")
+
+
+@mcp.tool(
+    name="Get All Device Suppliers",
+    description="Returns all  Device suppliers.",
+    output_schema=pydantic_to_mcp_schema(AllDeviceSuppliers),
+)
+async def get_all_device_suppliers(ctx: Context) -> AllDeviceSuppliers:
+    """All device suppliers
+
+    Returns:
+        AllDeviceSuppliers: A list of  DeviceSupplier objects
+    """
+    global device_suppliers
+    return AllDeviceSuppliers(device_suppliers=list(device_suppliers.values()))
+
+
+@mcp.tool(
+    name="Get All Drug Suppliers",
+    description="Returns all  Drug suppliers.",
+    output_schema=pydantic_to_mcp_schema(AllDrugSuppliers),
+)
+async def get_all_drug_suppliers(ctx: Context) -> AllDrugSuppliers:
+    """All device suppliers
+
+    Returns:
+        AllDeviceSuppliers: A list of  DeviceSupplier objects
+    """
+    global drug_suppliers
+    return AllDrugSuppliers(drug_suppliers=list(drug_suppliers.values()))
+
+
+@mcp.tool(
+    name="Get All Drug Stock Levels Data",
+    description="Returns the initial stock levels of all drugs in the hosptial.",
+    output_schema=pydantic_to_mcp_schema(AllDrugStockLevels),
+)
+async def get_all_drug_stock_levels(ctx: Context) -> AllDrugStockLevels:
+    """Get All Initial Drug Stock Levels
+
+    Returns:
+        AllDrugStockLevels: All the DrugStockLevel objects
+    """
+    global drug_stock_levels
+    return AllDrugStockLevels(drug_stock_levels=list(drug_stock_levels.values()))
+
+
+@mcp.tool(
+    name="Get Drug Stock Level",
+    description="Returns the initial stock levels of a drug in the hosptial.",
+    output_schema=pydantic_to_mcp_schema(DrugStockLevel),
+)
+async def get_drug_stock_level(drug_name: str, ctx: Context) -> DrugStockLevel:
+    """Get Initial Drug Stock Level ffor a drug
+
+    Args:
+        drug_name (str): The device name to get the initial stock level for
+
+    Returns:
+        DrugStockLevel: The DrugStockLevel object
+    """
+    global drug_stock_levels
+    if drug_name.lower() in drug_stock_levels:
+        drug_sl = drug_stock_levels[drug_name.lower()]
+
+        return drug_sl
+    raise Exception("device_name not found")
 
 
 @mcp.tool(
@@ -214,7 +316,7 @@ async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
 
 
 @mcp.tool(
-    name="Get Vital Signs Information",
+    name="(WXO) Get Vital Signs Information",
     description="Returns patient vital signs from the bedside system (Blood pressure, pulse, creatine data, bmi, weight, height) or None.",
     output_schema=pydantic_to_mcp_schema(VitalSigns),
 )
@@ -241,7 +343,7 @@ def wxobc_get_vital_signs_data_tool(patient_id: str, age: int, sex: str) -> Opti
 
 
 @mcp.tool(
-    name="Get Patient Information",
+    name="(WXO) Get Patient Information",
     description="Returns basic patient information from the healthcare database including personal details, contact information and insurance data or None.",
     output_schema=pydantic_to_mcp_schema(Patient),
 )
@@ -266,7 +368,7 @@ def wxobc_get_patient_information_tool(
 
 
 @mcp.tool(
-    name="Get Medical Information",
+    name="(WXO) Get Medical Information",
     description="Returns comprehensive patient medical inforamation regarding the diagnosis (condition), allergies and any given prescriptions or None",
     output_schema=pydantic_to_mcp_schema(MedicalServerOutput),
 )
@@ -290,7 +392,7 @@ def wxobc_get_medical_information_tool(
 
 
 @mcp.tool(
-    name="Get Drug Information",
+    name="(WXO) Get Drug Information",
     description="Returns comprehensive drug medical inforamation for a given drug or None",
     output_schema=pydantic_to_mcp_schema(DrugInformation),
 )
@@ -310,7 +412,7 @@ def wxobc_get_drug_data_from_name_tool(drug_name: str) -> Optional[DrugInformati
 
 
 @mcp.tool(
-    name="Get Drug Interations",
+    name="(WXO) Get Drug Interations",
     description="Returns comprehensive drug interaction medical inforamation for two given drugs or None",
     output_schema=pydantic_to_mcp_schema(DrugInteraction),
 )
@@ -334,7 +436,7 @@ def wxobc_get_drug_interactions_tool(drug_name_1: str, drug_name_2: str) -> Opti
 
 
 @mcp.tool(
-    name="Get Drug Contraindications",
+    name="(WXO) Get Drug Contraindications",
     description="Returns comprehensive drug contraindication medical inforamation for a given drug or None",
     output_schema=pydantic_to_mcp_schema(ContraindicationRule),
 )
@@ -357,7 +459,7 @@ def wxobc_get_drug_contrindications_from_drug_name_tool(
 
 
 @mcp.tool(
-    name="Get Drug Alternative Treatments",
+    name="(WXO) Get Drug Alternative Treatments",
     description="Retrieves information about alternative treatments for a given drug or None",
     output_schema=pydantic_to_mcp_schema(AlternativeTreatment),
 )
@@ -381,7 +483,7 @@ def wxobc_get_alternative_treatment_from_drug_name_tool(
 
 
 @mcp.tool(
-    name="Get Patient360",
+    name="(WXO) Get Patient360",
     description="Given a patient id, construct a 360 view of a patient, their information, medical data and most recent vital signs",
     output_schema=pydantic_to_mcp_schema(Patient360),
 )
@@ -405,7 +507,7 @@ logger = logging.getLogger(__name__)
 
 async def main_async():
     """Run the MCP server with comprehensive error handling"""
-    global patient_dict, visit_dict, transcripts
+    global patient_dict, visit_dict, transcripts, device_stock_levels, drug_stock_levels, device_suppliers, drug_data, drug_suppliers
 
     try:
         logger.info("Loading patient data...")
@@ -419,6 +521,26 @@ async def main_async():
         logger.info("Loading transcript data...")
         transcripts = load_transcripts_json()
         logger.info(f"Loaded {len(transcripts)} transcripts")
+
+        logger.info("Loading device stock levels data...")
+        device_stock_levels = load_device_stocklevels_csv()
+        logger.info(f"Loaded {len(device_stock_levels)} device stock levels")
+
+        logger.info("Loading device supplier data...")
+        device_suppliers = load_device_suppliers_csv()
+        logger.info(f"Loaded {len(device_suppliers)} device suppliers")
+
+        logger.info("Loading drug stock levels data...")
+        drug_stock_levels = load_drug_stocklevels_csv()
+        logger.info(f"Loaded {len(drug_stock_levels)} drug stock levels")
+
+        logger.info("Loading drug data...")
+        drug_data = load_drug_data_csv()
+        logger.info(f"Loaded {len(drug_data)} drug data")
+
+        logger.info("Loading drug suppliers data...")
+        drug_suppliers = load_drug_suppliers_csv()
+        logger.info(f"Loaded {len(drug_suppliers)} drug suppliers data")
 
         logger.info("Starting MCP server...")
         print("Data loaded successfully. Starting server on 0.0.0.0:8080...")

@@ -147,26 +147,26 @@ SAMPLE_CONDITIONS: Dict[str, Condition] = {
     ),
 }
 
-SAMPLE_ALLERGIES: Dict[str, Allergy] = {
-    "penicillin": Allergy(allergen="penicillin", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
-    "sulfonamides": Allergy(allergen="sulfonamides", severity=RiskLevel.MODERATE, reaction_type="skin rash"),
-    "ibuprofen": Allergy(
-        allergen="ibuprofen",
-        severity=RiskLevel.MODERATE,
-        reaction_type="gastrointestinal bleeding",
-    ),
-    "codeine": Allergy(
-        allergen="codeine",
-        severity=RiskLevel.MODERATE,
-        reaction_type="nausea and vomiting",
-    ),
-    "latex": Allergy(
-        allergen="latex",
-        severity=RiskLevel.MODERATE,
-        reaction_type="contact dermatitis",
-    ),
-    "shellfish": Allergy(allergen="shellfish", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
-}
+# SAMPLE_ALLERGIES: Dict[str, Allergy] = {
+#     "penicillin": Allergy(allergen="penicillin", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
+#     "sulfonamides": Allergy(allergen="sulfonamides", severity=RiskLevel.MODERATE, reaction_type="skin rash"),
+#     "ibuprofen": Allergy(
+#         allergen="ibuprofen",
+#         severity=RiskLevel.MODERATE,
+#         reaction_type="gastrointestinal bleeding",
+#     ),
+#     "codeine": Allergy(
+#         allergen="codeine",
+#         severity=RiskLevel.MODERATE,
+#         reaction_type="nausea and vomiting",
+#     ),
+#     "latex": Allergy(
+#         allergen="latex",
+#         severity=RiskLevel.MODERATE,
+#         reaction_type="contact dermatitis",
+#     ),
+#     "shellfish": Allergy(allergen="shellfish", severity=RiskLevel.HIGH, reaction_type="anaphylaxis"),
+# }
 
 # Sample patients designed to test various scenarios
 SAMPLE_PATIENTS: Dict[str, Patient] = {
@@ -282,7 +282,7 @@ SAMPLE_MEDICAL_SERVER: Dict[str, MedicalServerOutput] = {
             "essential_hypertension",  #: SAMPLE_CONDITIONS["COND002"],
             "chronic_kidney_disease",  #: SAMPLE_CONDITIONS["COND004"],
         ],
-        allergies=["penicillin"],  # {"penicillin": SAMPLE_ALLERGIES["penicillin"]},
+        allergies=[Allergy(allergen="penicillin", severity=RiskLevel.HIGH, reaction_type="anaphylaxis")],  # {"penicillin": SAMPLE_ALLERGIES["penicillin"]},
         prescriptions=[
             Prescription(
                 prescription_id="RX001",
@@ -347,7 +347,13 @@ SAMPLE_MEDICAL_SERVER: Dict[str, MedicalServerOutput] = {
             "major_depression",
             "migraine",
         ],  #  SAMPLE_CONDITIONS["COND005"], SAMPLE_CONDITIONS["COND006"]
-        allergies=["ibuprofen"],  #: SAMPLE_ALLERGIES["ibuprofen"]],
+        allergies=[
+            Allergy(
+                allergen="ibuprofen",
+                severity=RiskLevel.MODERATE,
+                reaction_type="gastrointestinal bleeding",
+            )
+        ],  #: SAMPLE_ALLERGIES["ibuprofen"]],
         prescriptions=[
             Prescription(
                 prescription_id="RX004",
