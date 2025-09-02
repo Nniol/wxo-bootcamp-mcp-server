@@ -58,7 +58,7 @@ from .wxo_bootcamp_enum_constants import Gender
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-#    filename="mcp_server.log",
+    filename="mcp_server.log",
 )
 log = logging.getLogger("MCPServer")
 # log.setLevel(logging.DEBUG)
@@ -78,7 +78,7 @@ drug_suppliers: Dict[int, DrugSupplier] = {}
 
 
 @mcp.tool(
-    name="Get Patient Data",
+    name="GetPatientData",
     description="Returns basic patient data (Name, Age, Sex etc.), or raise an Exception if not found.",
     output_schema=pydantic_to_mcp_schema(PatientData),
 )
@@ -102,7 +102,7 @@ async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
 
 
 @mcp.tool(
-    name="Get Visit Data",
+    name="GetVisitData",
     description="Returns the data describing the result of a visit to a hospital doctor, or raise an Exception if not found.",
     output_schema=pydantic_to_mcp_schema(VisitData),
 )
@@ -124,7 +124,7 @@ async def get_visit_data(visit_id: int, ctx: Context) -> VisitData:
 
 
 @mcp.tool(
-    name="Get All Device Stock Levels Data",
+    name="GetAllDeviceStockLevelsData",
     description="Returns the initial stock levels of all devices in the hosptial.",
     output_schema=pydantic_to_mcp_schema(AllDeviceStockLevels),
 )
@@ -139,7 +139,7 @@ async def get_all_device_stock_levels(ctx: Context) -> AllDeviceStockLevels:
 
 
 @mcp.tool(
-    name="Get Device Stock Level",
+    name="GetDeviceStockLevel",
     description="Returns the initial stock level of a device in the hosptial.",
     output_schema=pydantic_to_mcp_schema(DeviceStockLevel),
 )
@@ -161,7 +161,7 @@ async def get_device_stock_level(device_name: str, ctx: Context) -> DeviceStockL
 
 
 @mcp.tool(
-    name="Get Drug Data",
+    name="GetDrugData",
     description="Returns the data about a drug.",
     output_schema=pydantic_to_mcp_schema(DrugData),
 )
@@ -183,7 +183,7 @@ async def get_drug_data(drug_name: str, ctx: Context) -> DrugData:
 
 
 @mcp.tool(
-    name="Get Drug Supplier",
+    name="GetDrugSupplier",
     description="Returns a  drug supplier for the given id.",
     output_schema=pydantic_to_mcp_schema(DrugSupplier),
 )
@@ -205,7 +205,7 @@ async def get_drug_supplier(supplier_id: int, ctx: Context) -> DrugSupplier:
 
 
 @mcp.tool(
-    name="Get Device Supplier",
+    name="GetDeviceSupplier",
     description="Returns a  Device supplier for the given id.",
     output_schema=pydantic_to_mcp_schema(DeviceSupplier),
 )
@@ -227,7 +227,7 @@ async def get_device_supplier(supplier_id: int, ctx: Context) -> DeviceSupplier:
 
 
 @mcp.tool(
-    name="Get All Device Suppliers",
+    name="GetAllDeviceSuppliers",
     description="Returns all  Device suppliers.",
     output_schema=pydantic_to_mcp_schema(AllDeviceSuppliers),
 )
@@ -242,7 +242,7 @@ async def get_all_device_suppliers(ctx: Context) -> AllDeviceSuppliers:
 
 
 @mcp.tool(
-    name="Get All Drug Suppliers",
+    name="GetAllDrugSuppliers",
     description="Returns all  Drug suppliers.",
     output_schema=pydantic_to_mcp_schema(AllDrugSuppliers),
 )
@@ -257,7 +257,7 @@ async def get_all_drug_suppliers(ctx: Context) -> AllDrugSuppliers:
 
 
 @mcp.tool(
-    name="Get All Drug Stock Levels Data",
+    name="GetAllDrugStockLevelsData",
     description="Returns the initial stock levels of all drugs in the hosptial.",
     output_schema=pydantic_to_mcp_schema(AllDrugStockLevels),
 )
@@ -272,7 +272,7 @@ async def get_all_drug_stock_levels(ctx: Context) -> AllDrugStockLevels:
 
 
 @mcp.tool(
-    name="Get Drug Stock Level",
+    name="GetDrugStockLevel",
     description="Returns the initial stock levels of a drug in the hosptial.",
     output_schema=pydantic_to_mcp_schema(DrugStockLevel),
 )
@@ -294,7 +294,7 @@ async def get_drug_stock_level(drug_name: str, ctx: Context) -> DrugStockLevel:
 
 
 @mcp.tool(
-    name="Get Visit Transcript",
+    name="GetVisitTranscript",
     description="Returns the transcript of a visit, or raise an Exception if not found.",
 )
 async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
@@ -316,7 +316,7 @@ async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
 
 
 @mcp.tool(
-    name="(WXO) Get Vital Signs Information",
+    name="wxoGetVitalSignsInformation",
     description="Returns patient vital signs from the bedside system (Blood pressure, pulse, creatine data, bmi, weight, height) or None.",
     output_schema=pydantic_to_mcp_schema(VitalSigns),
 )
@@ -343,7 +343,7 @@ def wxobc_get_vital_signs_data_tool(patient_id: str, age: int, sex: str) -> Opti
 
 
 @mcp.tool(
-    name="(WXO) Get Patient Information",
+    name="wxoGetPatientInformation",
     description="Returns basic patient information from the healthcare database including personal details, contact information and insurance data or None.",
     output_schema=pydantic_to_mcp_schema(Patient),
 )
@@ -368,7 +368,7 @@ def wxobc_get_patient_information_tool(
 
 
 @mcp.tool(
-    name="(WXO) Get Medical Information",
+    name="wxoGetMedicalInformation",
     description="Returns comprehensive patient medical inforamation regarding the diagnosis (condition), allergies and any given prescriptions or None",
     output_schema=pydantic_to_mcp_schema(MedicalServerOutput),
 )
@@ -392,7 +392,7 @@ def wxobc_get_medical_information_tool(
 
 
 @mcp.tool(
-    name="(WXO) Get Drug Information",
+    name="wxoGetDrugInformation",
     description="Returns comprehensive drug medical inforamation for a given drug or None",
     output_schema=pydantic_to_mcp_schema(DrugInformation),
 )
@@ -412,7 +412,7 @@ def wxobc_get_drug_data_from_name_tool(drug_name: str) -> Optional[DrugInformati
 
 
 @mcp.tool(
-    name="(WXO) Get Drug Interations",
+    name="wxoGetDrugInterations",
     description="Returns comprehensive drug interaction medical inforamation for two given drugs or None",
     output_schema=pydantic_to_mcp_schema(DrugInteraction),
 )
@@ -436,7 +436,7 @@ def wxobc_get_drug_interactions_tool(drug_name_1: str, drug_name_2: str) -> Opti
 
 
 @mcp.tool(
-    name="(WXO) Get Drug Contraindications",
+    name="wxoGetDrugContraindications",
     description="Returns comprehensive drug contraindication medical inforamation for a given drug or None",
     output_schema=pydantic_to_mcp_schema(ContraindicationRule),
 )
@@ -459,7 +459,7 @@ def wxobc_get_drug_contrindications_from_drug_name_tool(
 
 
 @mcp.tool(
-    name="(WXO) Get Drug Alternative Treatments",
+    name="wxoGetDrugAlternativeTreatments",
     description="Retrieves information about alternative treatments for a given drug or None",
     output_schema=pydantic_to_mcp_schema(AlternativeTreatment),
 )
@@ -483,7 +483,7 @@ def wxobc_get_alternative_treatment_from_drug_name_tool(
 
 
 @mcp.tool(
-    name="(WXO) Get Patient360",
+    name="wxoGetPatient360",
     description="Given a patient id, construct a 360 view of a patient, their information, medical data and most recent vital signs",
     output_schema=pydantic_to_mcp_schema(Patient360),
 )
