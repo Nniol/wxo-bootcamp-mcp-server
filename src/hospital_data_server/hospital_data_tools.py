@@ -58,7 +58,7 @@ from .wxo_bootcamp_enum_constants import Gender
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename="mcp_server.log",
+#    filename="mcp_server.log",
 )
 log = logging.getLogger("MCPServer")
 # log.setLevel(logging.DEBUG)
