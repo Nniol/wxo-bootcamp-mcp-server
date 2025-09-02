@@ -24,7 +24,7 @@ def main():
         logger.info("Starting server initialization...")
 
         # Run the async main function
-        asyncio.run(main_async())
+        asyncio.run(main_async("SSE"))
 
     except KeyboardInterrupt:
         print("\n" + "=" * 60)

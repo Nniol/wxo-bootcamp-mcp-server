@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.6-1752587672
+FROM registry.access.redhat.com/ubi9-minimal:latest
 LABEL maintainer="Benjamin A. Janes" \
       name="advantage-mcp/mcp-hospital-data-server" \
       description="MCP Hospital Data Server: An MCP Server for use in courses etc"

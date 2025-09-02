@@ -505,7 +505,7 @@ def wxobc_create_patient_360_tool(patient_id: str) -> Patient360:
 logger = logging.getLogger(__name__)
 
 
-async def main_async():
+async def main_async(sse_or_stdio: str):
     """Run the MCP server with comprehensive error handling"""
     global patient_dict, visit_dict, transcripts, device_stock_levels, drug_stock_levels, device_suppliers, drug_data, drug_suppliers
 
@@ -543,13 +543,26 @@ async def main_async():
         logger.info(f"Loaded {len(drug_suppliers)} drug suppliers data")
 
         logger.info("Starting MCP server...")
-        print("Data loaded successfully. Starting server on 0.0.0.0:8080...")
-
         # Add some debug info about the mcp module
         logger.info(f"Using MCP version: {getattr(mcp, '__version__', 'unknown')}")
+        #################################################
+        #
+        # SSE
+        #
+        #################################################
+        if sse_or_stdio == "SSE":
+            print("(SSE) Data loaded successfully. Starting server on 0.0.0.0:8080...")
+            # Run with SSE transport
+            await mcp.run_async(transport="sse", host="0.0.0.0", port=8080)
 
-        # Run with SSE transport
-        await mcp.run_async(transport="sse", host="0.0.0.0", port=8080)
+        #################################################
+        #
+        # STDIO
+        #
+        #################################################
+        if sse_or_stdio == "STDIO":
+            print("(STDIO) Data loaded successfully. Starting server on STDIO")
+            await mcp.run_async(transport="stdio")
 
     except Exception as e:
         logger.error(f"Error in main_async: {e}")
