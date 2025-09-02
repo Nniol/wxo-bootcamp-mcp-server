@@ -13,7 +13,7 @@ from ..models.data_enginner_adv_models import PatientData, VisitData, DeviceStoc
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    filename="mcp_server.log",
+#    filename="mcp_server.log",
 )
 log = logging.getLogger("MCPServer")
 
