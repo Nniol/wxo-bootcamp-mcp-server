@@ -18,20 +18,6 @@ from .data.wxo_bootcamp_data import (
     ALTERNATIVE_TREATMENTS,
 )
 
-from .models.data_enginner_adv_models import (
-    PatientData,
-    VisitData,
-    DeviceStockLevel,
-    DeviceSupplier,
-    DrugData,
-    AllDeviceSuppliers,
-    AllDrugSuppliers,
-    DrugStockLevel,
-    DrugSupplier,
-    AllDeviceStockLevels,
-    AllDrugStockLevels,
-)
-
 from .models.wxo_bootcamp_models import (
     AlternativeTreatment,
     ContraindicationRule,
@@ -43,16 +29,6 @@ from .models.wxo_bootcamp_models import (
     VitalSigns,
 )
 from .util.pydantic_to_mcp import pydantic_to_mcp_schema
-from .util.load_data import (
-    load_patient_csv,
-    load_transcripts_json,
-    load_visit_csv,
-    load_device_stocklevels_csv,
-    load_drug_data_csv,
-    load_device_suppliers_csv,
-    load_drug_stocklevels_csv,
-    load_drug_suppliers_csv,
-)
 from .wxo_bootcamp_enum_constants import Gender
 
 logging.basicConfig(
@@ -65,255 +41,7 @@ log = logging.getLogger("MCPServer")
 
 # PROJECT_ROOT = Path(__file__).resolve().parent
 
-mcp = FastMCP("hospital-data-server")
-
-patient_dict: Dict[int, PatientData] = {}
-visit_dict: Dict[int, VisitData] = {}
-transcripts: Dict[int, str] = {}
-device_stock_levels: Dict[str, DeviceStockLevel] = {}
-drug_stock_levels: Dict[str, DrugStockLevel] = {}
-device_suppliers: Dict[int, DeviceSupplier] = {}
-drug_data: Dict[str, DrugData] = {}
-drug_suppliers: Dict[int, DrugSupplier] = {}
-
-
-@mcp.tool(
-    name="GetPatientData",
-    description="Returns basic patient data (Name, Age, Sex etc.), or raise an Exception if not found.",
-    output_schema=pydantic_to_mcp_schema(PatientData),
-)
-async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
-    """Get Patient Data
-
-    Args:
-        patient_id (int): The Unique Identifier of the patient
-
-    Returns:
-        PatientData: PatientData Object
-    """
-    global patient_dict
-#    log.info(patient_dict)
-    if patient_id in patient_dict:
-        patient_data = patient_dict[patient_id]
-
-        log.debug(patient_data.model_dump_json())
-        return patient_data
-    raise Exception("patient_id not found")
-
-
-@mcp.tool(
-    name="GetVisitData",
-    description="Returns the data describing the result of a visit to a hospital doctor, or raise an Exception if not found.",
-    output_schema=pydantic_to_mcp_schema(VisitData),
-)
-async def get_visit_data(visit_id: int, ctx: Context) -> VisitData:
-    """Get Visit Data
-
-    Args:
-        visit_id (int): The Unique Identifier of the visit
-
-    Returns:
-        VisitData: VisitData Object
-    """
-    global visit_dict
-    if visit_id in visit_dict:
-        patient_data = visit_dict[visit_id]
-
-        return patient_data
-    raise Exception("visit_id not found")
-
-
-@mcp.tool(
-    name="GetAllDeviceStockLevelsData",
-    description="Returns the initial stock levels of all devices in the hosptial.",
-    output_schema=pydantic_to_mcp_schema(AllDeviceStockLevels),
-)
-async def get_all_device_stock_levels(ctx: Context) -> AllDeviceStockLevels:
-    """Get All Initial Device Stock Levels
-
-    Returns:
-        AllDeviceStockLevels: All the initial Device Stock Levels
-    """
-    global device_stock_levels
-    return AllDeviceStockLevels(device_stock_levels=list(device_stock_levels.values()))
-
-
-@mcp.tool(
-    name="GetDeviceStockLevel",
-    description="Returns the initial stock level of a device in the hosptial.",
-    output_schema=pydantic_to_mcp_schema(DeviceStockLevel),
-)
-async def get_device_stock_level(device_name: str, ctx: Context) -> DeviceStockLevel:
-    """Get Initial Device Stock Level ffor a device
-
-    Args:
-        device_name (str): The device name to get the initial stock level for
-
-    Returns:
-        DeviceStockLevel: The DeviceStockLevel object
-    """
-    global device_stock_levels
-    if device_name.lower() in device_stock_levels:
-        device_sl = device_stock_levels[device_name.lower()]
-
-        return device_sl
-    raise Exception("device_name not found")
-
-
-@mcp.tool(
-    name="GetDrugData",
-    description="Returns the data about a drug.",
-    output_schema=pydantic_to_mcp_schema(DrugData),
-)
-async def get_drug_data(drug_name: str, ctx: Context) -> DrugData:
-    """Get Data on a Drug
-
-    Args:
-        drug_name (str): The drug name to get data for
-
-    Returns:
-        DrugData: The DrugData object
-    """
-    global drug_data
-    if drug_name.lower() in drug_data:
-        drug_data_obj = drug_data[drug_name.lower()]
-
-        return drug_data_obj
-    raise Exception("drug_name not found")
-
-
-@mcp.tool(
-    name="GetDrugSupplier",
-    description="Returns a  drug supplier for the given id.",
-    output_schema=pydantic_to_mcp_schema(DrugSupplier),
-)
-async def get_drug_supplier(supplier_id: int, ctx: Context) -> DrugSupplier:
-    """Get supplier data for the given id
-
-    Args:
-        supplier_id (int): The drug supplier id to get data for
-
-    Returns:
-        DrugSupplier: The DrugSupplier object
-    """
-    global drug_suppliers
-    if supplier_id in drug_suppliers:
-        drug_supplier_obj = drug_suppliers[supplier_id]
-
-        return drug_supplier_obj
-    raise Exception("supplier_id not found")
-
-
-@mcp.tool(
-    name="GetDeviceSupplier",
-    description="Returns a  Device supplier for the given id.",
-    output_schema=pydantic_to_mcp_schema(DeviceSupplier),
-)
-async def get_device_supplier(supplier_id: int, ctx: Context) -> DeviceSupplier:
-    """Get supplier data for the given id
-
-    Args:
-        supplier_id (int): The device supplier id to get data for
-
-    Returns:
-        DeviceSupplier: The DeviceSupplier object
-    """
-    global device_suppliers
-    if supplier_id in drug_suppliers:
-        device_supplier_obj = device_suppliers[supplier_id]
-
-        return device_supplier_obj
-    raise Exception("supplier_id not found")
-
-
-@mcp.tool(
-    name="GetAllDeviceSuppliers",
-    description="Returns all  Device suppliers.",
-    output_schema=pydantic_to_mcp_schema(AllDeviceSuppliers),
-)
-async def get_all_device_suppliers(ctx: Context) -> AllDeviceSuppliers:
-    """All device suppliers
-
-    Returns:
-        AllDeviceSuppliers: A list of  DeviceSupplier objects
-    """
-    global device_suppliers
-    return AllDeviceSuppliers(device_suppliers=list(device_suppliers.values()))
-
-
-@mcp.tool(
-    name="GetAllDrugSuppliers",
-    description="Returns all  Drug suppliers.",
-    output_schema=pydantic_to_mcp_schema(AllDrugSuppliers),
-)
-async def get_all_drug_suppliers(ctx: Context) -> AllDrugSuppliers:
-    """All device suppliers
-
-    Returns:
-        AllDeviceSuppliers: A list of  DeviceSupplier objects
-    """
-    global drug_suppliers
-    return AllDrugSuppliers(drug_suppliers=list(drug_suppliers.values()))
-
-
-@mcp.tool(
-    name="GetAllDrugStockLevelsData",
-    description="Returns the initial stock levels of all drugs in the hosptial.",
-    output_schema=pydantic_to_mcp_schema(AllDrugStockLevels),
-)
-async def get_all_drug_stock_levels(ctx: Context) -> AllDrugStockLevels:
-    """Get All Initial Drug Stock Levels
-
-    Returns:
-        AllDrugStockLevels: All the DrugStockLevel objects
-    """
-    global drug_stock_levels
-    return AllDrugStockLevels(drug_stock_levels=list(drug_stock_levels.values()))
-
-
-@mcp.tool(
-    name="GetDrugStockLevel",
-    description="Returns the initial stock levels of a drug in the hosptial.",
-    output_schema=pydantic_to_mcp_schema(DrugStockLevel),
-)
-async def get_drug_stock_level(drug_name: str, ctx: Context) -> DrugStockLevel:
-    """Get Initial Drug Stock Level ffor a drug
-
-    Args:
-        drug_name (str): The device name to get the initial stock level for
-
-    Returns:
-        DrugStockLevel: The DrugStockLevel object
-    """
-    global drug_stock_levels
-    if drug_name.lower() in drug_stock_levels:
-        drug_sl = drug_stock_levels[drug_name.lower()]
-
-        return drug_sl
-    raise Exception("device_name not found")
-
-
-@mcp.tool(
-    name="GetVisitTranscript",
-    description="Returns the transcript of a visit, or raise an Exception if not found.",
-)
-async def get_visit_transcript(visit_id: int, ctx: Context) -> str:
-    """Get Transcript of the Vist
-
-    Args:
-        visit_id (int): The Unique Identifier of the visit,
-
-    Returns:
-        str: The transcript of the visit if one exists
-    """
-    global transcripts
-    visit_id_str = str(visit_id)
-    if visit_id_str in transcripts:
-        transcript = transcripts[visit_id_str]
-        log.debug(f"{visit_id}: {transcript[:100]}")
-        return transcript
-    raise Exception("visit_id not found")
-
+mcp = FastMCP("wxo-bootcamp-mcp-server")
 
 @mcp.tool(
     name="wxoGetVitalSignsInformation",
@@ -510,38 +238,6 @@ async def main_async(sse_or_stdio: str):
     global patient_dict, visit_dict, transcripts, device_stock_levels, drug_stock_levels, device_suppliers, drug_data, drug_suppliers
 
     try:
-        logger.info("Loading patient data...")
-        patient_dict = load_patient_csv()
-        logger.info(f"Loaded {len(patient_dict)} patients")
-
-        logger.info("Loading visit data...")
-        visit_dict = load_visit_csv()
-        logger.info(f"Loaded {len(visit_dict)} visits")
-
-        logger.info("Loading transcript data...")
-        transcripts = load_transcripts_json()
-        logger.info(f"Loaded {len(transcripts)} transcripts")
-
-        logger.info("Loading device stock levels data...")
-        device_stock_levels = load_device_stocklevels_csv()
-        logger.info(f"Loaded {len(device_stock_levels)} device stock levels")
-
-        logger.info("Loading device supplier data...")
-        device_suppliers = load_device_suppliers_csv()
-        logger.info(f"Loaded {len(device_suppliers)} device suppliers")
-
-        logger.info("Loading drug stock levels data...")
-        drug_stock_levels = load_drug_stocklevels_csv()
-        logger.info(f"Loaded {len(drug_stock_levels)} drug stock levels")
-
-        logger.info("Loading drug data...")
-        drug_data = load_drug_data_csv()
-        logger.info(f"Loaded {len(drug_data)} drug data")
-
-        logger.info("Loading drug suppliers data...")
-        drug_suppliers = load_drug_suppliers_csv()
-        logger.info(f"Loaded {len(drug_suppliers)} drug suppliers data")
-
         logger.info("Starting MCP server...")
         # Add some debug info about the mcp module
         logger.info(f"Using MCP version: {getattr(mcp, '__version__', 'unknown')}")
@@ -575,7 +271,7 @@ async def main_async(sse_or_stdio: str):
 # Keep this for backward compatibility if needed
 def main():
     """Synchronous wrapper for the async main function"""
-    asyncio.run(main_async())
+    asyncio.run(main_async("SSE"))
 
 
 if __name__ == "__main__":

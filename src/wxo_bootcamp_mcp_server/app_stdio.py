@@ -1,7 +1,6 @@
 import asyncio
 import logging
 import sys
-import traceback
 from pathlib import Path
 
 # Add the src directory to Python path for direct execution
