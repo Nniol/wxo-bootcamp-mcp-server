@@ -1,5 +1,5 @@
 [project]
-name = "mcp-hospital-data-server"
+name = "wxo-bootcamp-mcp-server"
 version = "0.1.0"
 description = "WXO Bootcamp Lab Hospital Data Server"
 readme = "README.md"
@@ -9,20 +9,23 @@ dependencies = [
     "pandas>=2.3.1",
 ]
 
-
 [project.urls]
 Homepage = "https://github.ibm.com/Benjamin-Janes/wxo-bootcamp-mcp-server"
 "Bug Tracker" = "https://github.ibm.com/Benjamin-Janes/wxo-bootcamp-mcp-server/issues"
 
 [project.scripts]
-wxo-bootcamp-data-server-sse = "wxo_bootcamp_server.app_sse:main"
-wxo-bootcamp-data-server-stdio = "wxo_bootcamp_server.app_stdio:main"
+wxo-bootcamp-data-server-sse = "wxo_bootcamp_mcp_server.app_sse:main"
+wxo-bootcamp-data-server-stdio = "wxo_bootcamp_mcp_server.app_stdio:main"
 
-[tool.setuptools.package-dir]
-"" = "src"
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
-wxo_bootcamp_server = ["data/*.csv", "data/*.json"]
+wxo_bootcamp_mcp_server = ["data/*.csv", "data/*.json"]
 
 [dependency-groups]
 dev = [

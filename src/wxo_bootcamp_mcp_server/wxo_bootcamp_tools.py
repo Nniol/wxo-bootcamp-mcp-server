@@ -92,7 +92,7 @@ async def get_patient_data(patient_id: int, ctx: Context) -> PatientData:
         PatientData: PatientData Object
     """
     global patient_dict
-    log.info(patient_dict)
+#    log.info(patient_dict)
     if patient_id in patient_dict:
         patient_data = patient_dict[patient_id]
 

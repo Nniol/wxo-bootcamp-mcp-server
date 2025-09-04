@@ -12,12 +12,12 @@ if __name__ == "__main__":
 
 # Try relative import first, then absolute
 try:
-    from .hospital_data_tools import main_async
+    from .wxo_bootcamp_tools import main_async
 except ImportError:
     try:
-        from wxo_bootcamp_server.hospital_data_tools import main_async
+        from src.wxo_bootcamp_mcp_server.wxo_bootcamp_tools import main_async
     except ImportError:
-        from hospital_data_tools import main_async
+        from src.wxo_bootcamp_mcp_server.wxo_bootcamp_tools import main_async
 
 # Set up logging to stderr (so it doesn't interfere with STDIO transport)
 logging.basicConfig(

@@ -13,7 +13,7 @@ from ..models.data_enginner_adv_models import PatientData, VisitData, DeviceStoc
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-#    filename="mcp_server.log",
+    #    filename="mcp_server.log",
 )
 log = logging.getLogger("MCPServer")
 
@@ -22,7 +22,7 @@ def load_device_stocklevels_csv() -> Dict[str, DeviceStockLevel]:
     log.info("Loading Device Stock Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "device_stock_levels.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -48,7 +48,7 @@ def load_device_suppliers_csv() -> Dict[int, DeviceSupplier]:
     log.info("Loading Device Supplier Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "device_suppliers.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -84,7 +84,7 @@ def load_drug_stocklevels_csv() -> Dict[str, DrugStockLevel]:
     log.info("Loading Drug Stock Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "drug_stock_levels.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -110,7 +110,7 @@ def load_drug_data_csv() -> Dict[str, DrugData]:
     log.info("Loading Drug Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "drug_data.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -139,7 +139,7 @@ def load_drug_suppliers_csv() -> Dict[int, DrugSupplier]:
     log.info("Loading Drug Supplier Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "drug_suppliers.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -175,7 +175,7 @@ def load_patient_csv() -> Dict[int, PatientData]:
     log.info("Loading Patient Data")
     try:
         # Modern approach using files()
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         patients_file = data_files / "patients.csv"
         with patients_file.open("r") as f:
             df = pd.read_csv(f)
@@ -207,7 +207,7 @@ def load_patient_csv() -> Dict[int, PatientData]:
 def load_visit_csv() -> Dict[int, VisitData]:
     log.info("Loading Visit Data")
     try:
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         visits_file = data_files / "visits.csv"
         with visits_file.open("r") as f:
             df = pd.read_csv(f)
@@ -245,7 +245,7 @@ def load_visit_csv() -> Dict[int, VisitData]:
 def load_transcripts_json() -> Dict[int, str]:
     log.info("Loading Transcript Data")
     try:
-        data_files = resources.files("hospital_data_server.data")
+        data_files = resources.files("wxo_bootcamp_mcp_server.data")
         transcripts_file = data_files / "1000_transcripts.json"
         with transcripts_file.open("r") as f:
             transcripts = json.load(f)

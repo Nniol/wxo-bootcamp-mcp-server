@@ -2,7 +2,7 @@ import asyncio
 import logging
 import sys
 import traceback
-from .hospital_data_tools import main_async
+from .wxo_bootcamp_tools import main_async
 
 # Set up detailed logging
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
