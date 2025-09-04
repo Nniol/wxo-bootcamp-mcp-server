@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi9-minimal:latest
 LABEL maintainer="Benjamin A. Janes" \
-      name="advantage-mcp/mcp-hospital-data-server" \
-      description="MCP Hospital Data Server: An MCP Server for use in courses etc"
+      name="Benjamin-Janes/wxo-bootcamp-data-server" \
+      description="WXO Bootcamp MCP Server for Labs"
 
 ARG PYTHON_VERSION=3.12
 
@@ -30,4 +30,4 @@ USER 1001
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-CMD ["mcp-hospital-data-server"]
+CMD ["wxo-bootcamp-data-server-sse"]

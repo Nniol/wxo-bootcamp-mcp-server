@@ -9,7 +9,7 @@ The data is entirely made up and bears no linkage and or repsentation to any per
 Need two terminal:
 >#### Terminal 1
 > 1. ```cd src```
-> 3. ```uv run -m hospital_data_server.app_sse```   : Run the SSE server
+> 3. ```uv run -m wxo_bootcamp_server.app_sse```   : Run the SSE server
 >#### Terminal 2
 > 1. ```cd src```
 > 2. ```npx @modelcontextprotocol/inspector```  : Run the inspector for testing
@@ -19,7 +19,7 @@ Need two terminal:
  1. ```npx @modelcontextprotocol/inspector```  : Run the inspector for testing
  2. Use the following setup:
     - Transport Type: ```STDIO```  
-    - Command: ```uv run -m hospital_data_server.app_stdio```
+    - Command: ```uv run -m wxo_bootcamp_server.app_stdio```
     - Arguments: ```--no-banner``` 
 
 

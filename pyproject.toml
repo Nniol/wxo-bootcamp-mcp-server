@@ -1,7 +1,7 @@
 [project]
 name = "mcp-hospital-data-server"
 version = "0.1.0"
-description = "MCP Server for Fake Hosptial Data for Courses"
+description = "WXO Bootcamp Lab Hospital Data Server"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -11,18 +11,18 @@ dependencies = [
 
 
 [project.urls]
-Homepage = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server"
-"Bug Tracker" = "https://github.ibm.com/advantage-mcp/mcp-hospital-data-server/issues"
+Homepage = "https://github.ibm.com/Benjamin-Janes/wxo-bootcamp-mcp-server"
+"Bug Tracker" = "https://github.ibm.com/Benjamin-Janes/wxo-bootcamp-mcp-server/issues"
 
 [project.scripts]
-mcp-hospital-data-server-sse = "hospital_data_server.app_sse:main"
-mcp-hospital-data-server-stdio = "hospital_data_server.app_stdio:main"
+wxo-bootcamp-data-server-sse = "wxo_bootcamp_server.app_sse:main"
+wxo-bootcamp-data-server-stdio = "wxo_bootcamp_server.app_stdio:main"
 
 [tool.setuptools.package-dir]
 "" = "src"
 
 [tool.setuptools.package-data]
-hospital_data_server = ["data/*.csv", "data/*.json"]
+wxo_bootcamp_server = ["data/*.csv", "data/*.json"]
 
 [dependency-groups]
 dev = [
