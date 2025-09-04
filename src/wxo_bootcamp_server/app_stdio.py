@@ -15,7 +15,7 @@ try:
     from .hospital_data_tools import main_async
 except ImportError:
     try:
-        from hospital_data_server.hospital_data_tools import main_async
+        from wxo_bootcamp_server.hospital_data_tools import main_async
     except ImportError:
         from hospital_data_tools import main_async
 
