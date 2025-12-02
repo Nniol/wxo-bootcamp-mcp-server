@@ -27,6 +27,8 @@ You can do this for _Terminal 1_
  1. from root
  2. podman build .
  3. podman run -p 8080:8080 [Container ID]                              
+ 4. npx @modelcontextprotocol/inspector
+ 5. https://localhost:8080/sse
 
 
 # Deploy to a TechZone zone Code Engine  
@@ -66,16 +68,18 @@ Pre Reqs:
 ## Use everything on the Techzone instance
 - $ibmcloud login -a https://cloud.ibm.com --sso
   - Choose the account with the Techzone Account
-- $ibmcloud ce login
+- $ibmcloud target -g [RESOURCE_GROUP]
+  - Get the Resource GRoup from the Resource List
 - $ibmcloud cr login
 - $podman tag wxo-bootcamp-mcp-sever us.icr.io/[NAMESPACE]/[IMAGE_NAME]:[TAG] 
   - The [NAMESPACE] is the only one available when you look at Container Registry in the techzone instance. You do not need to create one
 - $podman push us.icr.io/[NAMESPACE]/[IMAGE_NAME]:[TAG] 
 - $ibmcloud iam api-key-create [API_KEY_NAME] --d "Tech Zone Code Engine registry access"                                
+- $ibmcloud ce project select -n [PROJECT NAME]
 - $ibmcloud ce registry create -name [REGISTRY_SECRET_NAME] --server us.icr.io --username iamapikey --password [API_KEY_VALUE]
   - THE [API_KEY_VALUE] will be available from the previous command
 - $ibmcloud ce application create --name [APP_NAME] --image us.icr.io/[NAME_SPACE]/[IMAGE_NAME]:[TAG] --registry-secret [REGISTRY_SECRET_NAME]  
-- $ibmcloud ce project select -n [PROJECT NAME]
+
 
 
 # Test using MCP Inspector
@@ -83,3 +87,6 @@ Pre Reqs:
  - Use the URL for the application (from Code Endgine) and append /sse as the URL
   - https://[APP_NAME].[IBM_CLOUD_URL_PART]/sse
 
+
+# To run using personal access token from GitHUb, for wxo
+uvx --from git+https://YOUR_TOKEN@github.ibm.com/Benjamin-Janes/wxo-bootcamp-mcp-server.git wxo-bootcamp-data-server-stdio

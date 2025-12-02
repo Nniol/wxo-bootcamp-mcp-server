@@ -1,12 +1,9 @@
 import asyncio
 import logging
 
-from typing import Dict, Optional
+from typing import Optional
 
-
-from fastmcp.server import Context
 from fastmcp.server import FastMCP
-# from mcp.types import SamplingMessage, TextContent
 
 from .data.wxo_bootcamp_data import (
     SAMPLE_BED_SIDE_DATA_SERVER,
@@ -34,7 +31,7 @@ from .wxo_bootcamp_enum_constants import Gender
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-#    filename="mcp_server.log",
+    #    filename="mcp_server.log",
 )
 log = logging.getLogger("MCPServer")
 # log.setLevel(logging.DEBUG)
@@ -42,6 +39,7 @@ log = logging.getLogger("MCPServer")
 # PROJECT_ROOT = Path(__file__).resolve().parent
 
 mcp = FastMCP("wxo-bootcamp-mcp-server")
+
 
 @mcp.tool(
     name="wxoGetVitalSignsInformation",
