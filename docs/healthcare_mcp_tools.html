@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare MCP Server — Tools Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --surface: #111827;
+            --surface2: #1a2234;
+            --border: #1f2d45;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-violet: #8b5cf6;
+            --accent-orange: #f97316;
+            --accent-teal: #14b8a6;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-dim: #475569;
+            --mono: 'IBM Plex Mono', monospace;
+            --sans: 'IBM Plex Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ── Grid texture ─────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        /* ── Header ──────────────────────────────────── */
+        .header {
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 40px;
+        }
+
+        .header-eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .header h1 span {
+            color: var(--accent-blue);
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            background: var(--surface);
+        }
+
+        .meta-pill.active {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            background: rgba(16,185,129,0.06);
+        }
+
+        /* ── Section labels ──────────────────────────── */
+        .section-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        /* ── Tools grid ──────────────────────────────── */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+
+        .tool-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            position: relative;
+            transition: border-color 0.2s, transform 0.2s;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            border-color: #2a3a56;
+        }
+
+        /* Color variants */
+        .c-blue::before   { background: var(--accent-blue); }
+        .c-cyan::before   { background: var(--accent-cyan); }
+        .c-green::before  { background: var(--accent-green); }
+        .c-amber::before  { background: var(--accent-amber); }
+        .c-rose::before   { background: var(--accent-rose); }
+        .c-violet::before { background: var(--accent-violet); }
+        .c-orange::before { background: var(--accent-orange); }
+        .c-teal::before   { background: var(--accent-teal); }
+
+        .tool-card:hover.c-blue   { border-color: rgba(59,130,246,0.4); box-shadow: 0 0 24px rgba(59,130,246,0.07); }
+        .tool-card:hover.c-cyan   { border-color: rgba(6,182,212,0.4);  box-shadow: 0 0 24px rgba(6,182,212,0.07); }
+        .tool-card:hover.c-green  { border-color: rgba(16,185,129,0.4); box-shadow: 0 0 24px rgba(16,185,129,0.07); }
+        .tool-card:hover.c-amber  { border-color: rgba(245,158,11,0.4); box-shadow: 0 0 24px rgba(245,158,11,0.07); }
+        .tool-card:hover.c-rose   { border-color: rgba(244,63,94,0.4);  box-shadow: 0 0 24px rgba(244,63,94,0.07); }
+        .tool-card:hover.c-violet { border-color: rgba(139,92,246,0.4); box-shadow: 0 0 24px rgba(139,92,246,0.07); }
+        .tool-card:hover.c-orange { border-color: rgba(249,115,22,0.4); box-shadow: 0 0 24px rgba(249,115,22,0.07); }
+        .tool-card:hover.c-teal   { border-color: rgba(20,184,166,0.4); box-shadow: 0 0 24px rgba(20,184,166,0.07); }
+
+        .tool-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .icon-blue   { background: rgba(59,130,246,0.12); }
+        .icon-cyan   { background: rgba(6,182,212,0.12); }
+        .icon-green  { background: rgba(16,185,129,0.12); }
+        .icon-amber  { background: rgba(245,158,11,0.12); }
+        .icon-rose   { background: rgba(244,63,94,0.12); }
+        .icon-violet { background: rgba(139,92,246,0.12); }
+        .icon-orange { background: rgba(249,115,22,0.12); }
+        .icon-teal   { background: rgba(20,184,166,0.12); }
+
+        .tool-name-block {}
+
+        .tool-fn-name {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 3px;
+        }
+
+        .tool-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tool-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            line-height: 1.55;
+        }
+
+        .io-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .io-block {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .io-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+        }
+
+        .io-item {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .io-param { color: var(--accent-cyan); }
+        .io-type  { color: var(--accent-amber); font-size: 10px; }
+
+        /* ── Workflow ─────────────────────────────────── */
+        .workflow-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 36px;
+            margin-bottom: 64px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            margin-top: 32px;
+            overflow-x: auto;
+        }
+
+        .flow-node {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 20px;
+            text-align: center;
+            min-width: 130px;
+            transition: border-color 0.2s;
+        }
+
+        .flow-node:hover { border-color: var(--accent-blue); }
+
+        .flow-node-icon { font-size: 20px; margin-bottom: 6px; }
+
+        .flow-node-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .flow-node-sub {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .flow-arrow {
+            color: var(--text-dim);
+            font-size: 18px;
+            padding: 0 8px;
+            flex-shrink: 0;
+        }
+
+        /* ── Data Models ─────────────────────────────── */
+        .models-section {
+            margin-bottom: 64px;
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .model-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .model-card:hover { border-color: #2a3a56; }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .model-icon {
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface2);
+            border-radius: 6px;
+        }
+
+        .model-name {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .model-desc {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .model-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 8px;
+            background: var(--surface2);
+            border-radius: 4px;
+            font-family: var(--mono);
+            font-size: 11px;
+            border-left: 2px solid transparent;
+            transition: border-color 0.15s;
+        }
+
+        .field-row:hover { border-left-color: var(--accent-blue); }
+
+        .field-n { color: var(--text-secondary); }
+        .field-t { color: var(--accent-amber); font-size: 10px; }
+
+        /* ── Enums ───────────────────────────────────── */
+        .enums-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 64px;
+        }
+
+        .enums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .enum-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .enum-name {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent-violet);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .enum-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .enum-val {
+            font-family: var(--mono);
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(139,92,246,0.1);
+            border: 1px solid rgba(139,92,246,0.2);
+            color: var(--text-secondary);
+        }
+
+        .enum-val.patient {
+            background: rgba(16,185,129,0.1);
+            border-color: rgba(16,185,129,0.2);
+            color: var(--accent-green);
+        }
+
+        /* ── Usage Patterns ──────────────────────────── */
+        .patterns-section {
+            margin-bottom: 64px;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .pattern-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .pattern-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .pattern-icon {
+            font-size: 18px;
+        }
+
+        .pattern-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .pattern-steps {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .pattern-steps li {
+            counter-increment: step;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .pattern-steps li::before {
+            content: counter(step);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .step-tool {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--accent-cyan);
+            background: rgba(6,182,212,0.08);
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+
+        /* ── Responsive ───────────────────────────────── */
+        @media (max-width: 640px) {
+            .tools-grid, .models-grid, .patterns-grid { grid-template-columns: 1fr; }
+            .io-row { grid-template-columns: 1fr; }
+            .page { padding: 24px 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-eyebrow">// wxo-bootcamp-mcp-server</div>
+        <h1>Healthcare MCP<br><span>Tools Architecture</span></h1>
+        <div class="header-meta">
+            <span class="meta-pill active">8 Tools</span>
+            <span class="meta-pill">FastMCP · SSE / STDIO</span>
+            <span class="meta-pill">9 Data Models</span>
+            <span class="meta-pill">PAT001 – PAT007</span>
+        </div>
+    </header>
+
+    <!-- Tools -->
+    <section>
+        <div class="section-label">01 — MCP Tools</div>
+        <div class="section-title">Registered Tool Functions</div>
+        <div class="section-subtitle">All 8 tools exposed by the FastMCP server instance</div>
+
+        <div class="tools-grid">
+
+            <!-- wxoGetPatientInformation -->
+            <div class="tool-card c-blue">
+                <div class="tool-header">
+                    <div class="tool-icon icon-blue">👤</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetPatientInformation</div>
+                        <div class="tool-name">Get Patient Information</div>
+                    </div>
+                </div>
+                <div class="tool-description">Returns basic patient information from the healthcare database including personal details, contact information, and insurance data. Returns <code style="font-family:var(--mono);font-size:11px;color:var(--accent-amber)">None</code> if patient not found.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">patient_id</span> <span class="io-type">string</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">PAT + 3 digits</div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">Patient</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Demographics, insurance</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetMedicalInformation -->
+            <div class="tool-card c-cyan">
+                <div class="tool-header">
+                    <div class="tool-icon icon-cyan">📋</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetMedicalInformation</div>
+                        <div class="tool-name">Get Medical Information</div>
+                    </div>
+                </div>
+                <div class="tool-description">Returns comprehensive patient medical information — diagnoses (conditions), allergies, and active prescriptions. Returns <code style="font-family:var(--mono);font-size:11px;color:var(--accent-amber)">None</code> if patient not found.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">patient_id</span> <span class="io-type">string</span></div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">MedicalServerOutput</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Conditions, allergies, Rx</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetVitalSignsInformation -->
+            <div class="tool-card c-green">
+                <div class="tool-header">
+                    <div class="tool-icon icon-green">💓</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetVitalSignsInformation</div>
+                        <div class="tool-name">Get Vital Signs</div>
+                    </div>
+                </div>
+                <div class="tool-description">Returns patient vital signs from the bedside monitoring system. Calculates creatinine clearance using the Cockcroft-Gault formula given patient age and sex.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">patient_id</span> <span class="io-type">string</span></div>
+                        <div class="io-item"><span class="io-param">age</span> <span class="io-type">int</span></div>
+                        <div class="io-item"><span class="io-param">sex</span> <span class="io-type">M | F | OTHER</span></div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">VitalSigns</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">BP, HR, BMI, creatinine</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetDrugInformation -->
+            <div class="tool-card c-amber">
+                <div class="tool-header">
+                    <div class="tool-icon icon-amber">💊</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetDrugInformation</div>
+                        <div class="tool-name">Get Drug Information</div>
+                    </div>
+                </div>
+                <div class="tool-description">Returns comprehensive pharmaceutical information for a given drug name, including indications, contraindications, dosage, side effects, and pregnancy category.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">drug_name</span> <span class="io-type">string</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Case-insensitive lookup</div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">DrugInformation</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Indications, dosage, Rx class</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetDrugInterations -->
+            <div class="tool-card c-rose">
+                <div class="tool-header">
+                    <div class="tool-icon icon-rose">⚠️</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetDrugInteractions</div>
+                        <div class="tool-name">Check Drug Interactions</div>
+                    </div>
+                </div>
+                <div class="tool-description">Identifies potential interactions between two drugs. Lookup is symmetric — order of drug names does not matter. Returns severity, mechanism, clinical effect, and management guidance.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">drug_name_1</span> <span class="io-type">string</span></div>
+                        <div class="io-item"><span class="io-param">drug_name_2</span> <span class="io-type">string</span></div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">DrugInteraction</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Severity, mechanism, mgmt</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetDrugContraindications — previously MISSING -->
+            <div class="tool-card c-violet">
+                <div class="tool-header">
+                    <div class="tool-icon icon-violet">🚫</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetDrugContraindications</div>
+                        <div class="tool-name">Get Drug Contraindications</div>
+                    </div>
+                </div>
+                <div class="tool-description">Returns contraindication rules for a given drug — conditions under which the drug must not be prescribed, including severity level and clinical rationale.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">drug_name</span> <span class="io-type">string</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Case-insensitive lookup</div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">ContraindicationRule</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Drug, condition, severity, reason</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetDrugAlternativeTreatments — previously MISSING -->
+            <div class="tool-card c-orange">
+                <div class="tool-header">
+                    <div class="tool-icon icon-orange">🔄</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetDrugAlternativeTreatments</div>
+                        <div class="tool-name">Get Alternative Treatments</div>
+                    </div>
+                </div>
+                <div class="tool-description">Retrieves alternative treatment options for a given drug. Useful when a contraindication or interaction prevents use of a first-line medication.</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">drug_name</span> <span class="io-type">string</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Case-insensitive lookup</div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">AlternativeTreatment</span> <span class="io-type">| None</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Alternative drug options</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- wxoGetPatient360 -->
+            <div class="tool-card c-teal">
+                <div class="tool-header">
+                    <div class="tool-icon icon-teal">🌐</div>
+                    <div class="tool-name-block">
+                        <div class="tool-fn-name">wxoGetPatient360</div>
+                        <div class="tool-name">Get Patient 360 View</div>
+                    </div>
+                </div>
+                <div class="tool-description">Combines all data sources into a single comprehensive patient view — demographics, full medical history, and current vital signs (with creatinine clearance calculated inline).</div>
+                <div class="io-row">
+                    <div class="io-block">
+                        <div class="io-label">Input</div>
+                        <div class="io-item"><span class="io-param">patient_id</span> <span class="io-type">string</span></div>
+                    </div>
+                    <div class="io-block">
+                        <div class="io-label">Returns</div>
+                        <div class="io-item"><span class="io-param">Patient360</span></div>
+                        <div class="io-item" style="color:var(--text-dim);font-size:10px">Composite of all records</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Workflow -->
+    <section>
+        <div class="section-label">02 — Integration Flow</div>
+        <div class="section-title">Tool Integration Workflow</div>
+        <div class="section-subtitle">Recommended call sequence for a complete patient safety assessment</div>
+
+        <div class="workflow-section">
+            <div class="flow-diagram">
+                <div class="flow-node">
+                    <div class="flow-node-icon">🪪</div>
+                    <div class="flow-node-label">Patient ID</div>
+                    <div class="flow-node-sub">PAT001–PAT007</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-node-icon">🌐</div>
+                    <div class="flow-node-label">Patient 360</div>
+                    <div class="flow-node-sub">Full overview</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-node-icon">⚠️</div>
+                    <div class="flow-node-label">Drug Interactions</div>
+                    <div class="flow-node-sub">All Rx combos</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-node-icon">🚫</div>
+                    <div class="flow-node-label">Contraindications</div>
+                    <div class="flow-node-sub">Per drug</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-node-icon">🔄</div>
+                    <div class="flow-node-label">Alternatives</div>
+                    <div class="flow-node-sub">If issues found</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-node-icon">✅</div>
+                    <div class="flow-node-label">Clinical Decision</div>
+                    <div class="flow-node-sub">Safety summary</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Models -->
+    <section class="models-section">
+        <div class="section-label">03 — Data Models</div>
+        <div class="section-title">Pydantic Schemas</div>
+        <div class="section-subtitle">Structures returned by MCP server tools — serialized via <code style="font-family:var(--mono);font-size:12px;color:var(--accent-cyan)">pydantic_to_mcp_schema()</code></div>
+
+        <div class="models-grid">
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">👤</div>
+                    <div class="model-name">Patient</div>
+                </div>
+                <div class="model-desc">Patient demographics, insurance, and pregnancy status</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">patient_id</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">age</span><span class="field-t">int (0–150)</span></div>
+                    <div class="field-row"><span class="field-n">sex</span><span class="field-t">Gender enum</span></div>
+                    <div class="field-row"><span class="field-n">pregnant</span><span class="field-t">boolean</span></div>
+                    <div class="field-row"><span class="field-n">insurance_id</span><span class="field-t">string | None</span></div>
+                    <div class="field-row"><span class="field-n">created_date</span><span class="field-t">ISO datetime</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">💓</div>
+                    <div class="model-name">VitalSigns</div>
+                </div>
+                <div class="model-desc">Real-time bedside monitoring data with calculated metrics</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">blood_pressure_systolic</span><span class="field-t">int (50–300)</span></div>
+                    <div class="field-row"><span class="field-n">blood_pressure_diastolic</span><span class="field-t">int (30–200)</span></div>
+                    <div class="field-row"><span class="field-n">heart_rate</span><span class="field-t">int (30–250)</span></div>
+                    <div class="field-row"><span class="field-n">weight_kg</span><span class="field-t">float</span></div>
+                    <div class="field-row"><span class="field-n">height_cm</span><span class="field-t">float</span></div>
+                    <div class="field-row"><span class="field-n">bmi</span><span class="field-t">float (calculated)</span></div>
+                    <div class="field-row"><span class="field-n">creatinine_clearance</span><span class="field-t">float ml/min</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">📋</div>
+                    <div class="model-name">MedicalServerOutput</div>
+                </div>
+                <div class="model-desc">Comprehensive medical history record</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">conditions</span><span class="field-t">List[string]</span></div>
+                    <div class="field-row"><span class="field-n">allergies</span><span class="field-t">List[Allergy]</span></div>
+                    <div class="field-row"><span class="field-n">prescriptions</span><span class="field-t">List[Prescription]</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">⚠️</div>
+                    <div class="model-name">Allergy</div>
+                </div>
+                <div class="model-desc">Patient allergy with severity and reaction details</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">allergen</span><span class="field-t">string (1–100)</span></div>
+                    <div class="field-row"><span class="field-n">severity</span><span class="field-t">RiskLevel enum</span></div>
+                    <div class="field-row"><span class="field-n">reaction_type</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">verified</span><span class="field-t">boolean</span></div>
+                    <div class="field-row"><span class="field-n">onset_date</span><span class="field-t">date | None</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">💊</div>
+                    <div class="model-name">Prescription</div>
+                </div>
+                <div class="model-desc">Active drug prescription with dosage and admin route</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">drug_name</span><span class="field-t">string (generic)</span></div>
+                    <div class="field-row"><span class="field-n">brand_name</span><span class="field-t">string | None</span></div>
+                    <div class="field-row"><span class="field-n">dose</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">frequency</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">route</span><span class="field-t">oral | IV | topical</span></div>
+                    <div class="field-row"><span class="field-n">duration_days</span><span class="field-t">int | None</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">🔬</div>
+                    <div class="model-name">DrugInformation</div>
+                </div>
+                <div class="model-desc">Comprehensive pharmaceutical database entry</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">drug_name</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">brand_names</span><span class="field-t">List[string]</span></div>
+                    <div class="field-row"><span class="field-n">drug_class</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">indications</span><span class="field-t">List[string]</span></div>
+                    <div class="field-row"><span class="field-n">contraindications</span><span class="field-t">List[string]</span></div>
+                    <div class="field-row"><span class="field-n">pregnancy_category</span><span class="field-t">PregnancyCategory</span></div>
+                    <div class="field-row"><span class="field-n">controlled_substance</span><span class="field-t">boolean</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">⚡</div>
+                    <div class="model-name">DrugInteraction</div>
+                </div>
+                <div class="model-desc">Drug-pair interaction with clinical guidance</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">drug1</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">drug2</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">severity</span><span class="field-t">InteractionSeverity</span></div>
+                    <div class="field-row"><span class="field-n">mechanism</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">clinical_effect</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">management</span><span class="field-t">string</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">🚫</div>
+                    <div class="model-name">ContraindicationRule</div>
+                </div>
+                <div class="model-desc">Clinical rule defining when a drug must not be used</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">drug</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">condition</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">severity</span><span class="field-t">RiskLevel</span></div>
+                    <div class="field-row"><span class="field-n">reason</span><span class="field-t">string (1–500)</span></div>
+                </div>
+            </div>
+
+            <!-- AlternativeTreatment — previously MISSING -->
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">🔄</div>
+                    <div class="model-name">AlternativeTreatment</div>
+                </div>
+                <div class="model-desc">Alternative treatment options when a first-line drug is contraindicated or unsafe</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">original_drug</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">alternatives</span><span class="field-t">List[string]</span></div>
+                    <div class="field-row"><span class="field-n">reason</span><span class="field-t">string</span></div>
+                    <div class="field-row"><span class="field-n">notes</span><span class="field-t">string | None</span></div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-icon">🌐</div>
+                    <div class="model-name">Patient360</div>
+                </div>
+                <div class="model-desc">Composite view — aggregates all patient data sources</div>
+                <div class="model-fields">
+                    <div class="field-row"><span class="field-n">information</span><span class="field-t">Patient | None</span></div>
+                    <div class="field-row"><span class="field-n">medical</span><span class="field-t">MedicalServerOutput | None</span></div>
+                    <div class="field-row"><span class="field-n">vital_signs</span><span class="field-t">VitalSigns | None</span></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Enums -->
+    <section>
+        <div class="section-label">04 — Enums &amp; Constants</div>
+        <div class="enums-section">
+            <div class="section-title" style="margin-bottom:4px">Key Enumerations</div>
+            <div class="section-subtitle">Shared constants across models and tool signatures</div>
+            <div class="enums-grid">
+                <div class="enum-card">
+                    <div class="enum-name">RiskLevel</div>
+                    <div class="enum-values">
+                        <span class="enum-val">LOW</span>
+                        <span class="enum-val">MODERATE</span>
+                        <span class="enum-val">HIGH</span>
+                        <span class="enum-val">CRITICAL</span>
+                    </div>
+                </div>
+                <div class="enum-card">
+                    <div class="enum-name">Gender</div>
+                    <div class="enum-values">
+                        <span class="enum-val">M</span>
+                        <span class="enum-val">F</span>
+                        <span class="enum-val">OTHER</span>
+                    </div>
+                </div>
+                <div class="enum-card">
+                    <div class="enum-name">InteractionSeverity</div>
+                    <div class="enum-values">
+                        <span class="enum-val">MINOR</span>
+                        <span class="enum-val">MODERATE</span>
+                        <span class="enum-val">MAJOR</span>
+                        <span class="enum-val">SEVERE</span>
+                    </div>
+                </div>
+                <div class="enum-card">
+                    <div class="enum-name">PregnancyCategory</div>
+                    <div class="enum-values">
+                        <span class="enum-val">A</span>
+                        <span class="enum-val">B</span>
+                        <span class="enum-val">C</span>
+                        <span class="enum-val">D</span>
+                        <span class="enum-val">X</span>
+                    </div>
+                </div>
+                <div class="enum-card">
+                    <div class="enum-name">Available Patients</div>
+                    <div class="enum-values">
+                        <span class="enum-val patient">PAT001</span>
+                        <span class="enum-val patient">PAT002</span>
+                        <span class="enum-val patient">PAT003</span>
+                        <span class="enum-val patient">PAT004</span>
+                        <span class="enum-val patient">PAT005</span>
+                        <span class="enum-val patient">PAT006</span>
+                        <span class="enum-val patient">PAT007</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Patterns -->
+    <section class="patterns-section">
+        <div class="section-label">05 — Usage Patterns</div>
+        <div class="section-title">Common Clinical Workflows</div>
+        <div class="section-subtitle">Recommended multi-tool call sequences for agent implementations</div>
+
+        <div class="patterns-grid">
+
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-icon">🎯</div>
+                    <div class="pattern-title">Complete Patient Assessment</div>
+                </div>
+                <ol class="pattern-steps">
+                    <li>
+                        Retrieve full patient overview<br>
+                        <span class="step-tool">wxoGetPatient360</span>
+                    </li>
+                    <li>
+                        Enumerate all active prescriptions from medical record<br>
+                        <span class="step-tool">wxoGetMedicalInformation</span>
+                    </li>
+                    <li>
+                        Cross-check all drug pairs for interactions<br>
+                        <span class="step-tool">wxoGetDrugInteractions</span>
+                    </li>
+                    <li>
+                        Verify per-drug contraindications against conditions<br>
+                        <span class="step-tool">wxoGetDrugContraindications</span>
+                    </li>
+                    <li>
+                        Generate clinical summary with safety flags
+                    </li>
+                </ol>
+            </div>
+
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-icon">🔍</div>
+                    <div class="pattern-title">Drug Safety Analysis</div>
+                </div>
+                <ol class="pattern-steps">
+                    <li>
+                        Fetch detailed drug information<br>
+                        <span class="step-tool">wxoGetDrugInformation</span>
+                    </li>
+                    <li>
+                        Check contraindications for the drug<br>
+                        <span class="step-tool">wxoGetDrugContraindications</span>
+                    </li>
+                    <li>
+                        Check interactions with co-prescribed medications<br>
+                        <span class="step-tool">wxoGetDrugInteractions</span>
+                    </li>
+                    <li>
+                        If unsafe, retrieve alternatives<br>
+                        <span class="step-tool">wxoGetDrugAlternativeTreatments</span>
+                    </li>
+                    <li>
+                        Provide ranked safety recommendations
+                    </li>
+                </ol>
+            </div>
+
+            <div class="pattern-card">
+                <div class="pattern-header">
+                    <div class="pattern-icon">⚡</div>
+                    <div class="pattern-title">Quick Clinical Check</div>
+                </div>
+                <ol class="pattern-steps">
+                    <li>
+                        Get current vital signs (incl. creatinine clearance)<br>
+                        <span class="step-tool">wxoGetVitalSignsInformation</span>
+                    </li>
+                    <li>
+                        Review active prescriptions<br>
+                        <span class="step-tool">wxoGetMedicalInformation</span>
+                    </li>
+                    <li>
+                        Check for immediate interaction risks<br>
+                        <span class="step-tool">wxoGetDrugInteractions</span>
+                    </li>
+                    <li>
+                        Flag critical contraindications<br>
+                        <span class="step-tool">wxoGetDrugContraindications</span>
+                    </li>
+                    <li>
+                        Surface real-time clinical alerts
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
