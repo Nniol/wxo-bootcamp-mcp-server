@@ -6,19 +6,24 @@ You have **20–30 minutes**. The goal is to build something useful in watsonx O
 
 ## Step 1 — Connect the MCP Server
 
-In watsonx Orchestrate, add a new MCP server with the following command:
+1. Open your watsonx Orchestrate instance in a browser.
+2. Click **☰ menu → Build → All tools → Create Tool + → MCP Server → Add MCP Server + → Local MCP Server → Next**.
+3. Fill in the form:
 
-```
-uvx --from wxo-bootcamp-mcp-server wxo-bootcamp-data-server-stdio
-```
+   | Field | Value |
+   |---|---|
+   | **Server name** | `healthcare-mcp` |
+   | **Description** | `Hospital data MCP server` |
+   | **Install Command** | `uvx --from wxo-bootcamp-mcp-server wxo-bootcamp-data-server-stdio` |
+   | **Select Connection (optional)** | Leave blank |
 
-Transport type: **STDIO**
+4. Click **Add** and wait for the tools to import.
 
 ---
 
 ## Step 2 — Understand the Tools
 
-Open [healthcare_mcp_tools.html](healthcare_mcp_tools.html) for the full tool reference.
+Open the **[Tool Reference](https://htmlpreview.github.io/?https://github.com/Nniol/wxo-bootcamp-mcp-server/blob/main/docs/healthcare_mcp_tools.html)** for the full interactive tool reference.
 
 There are **8 tools** available:
 
