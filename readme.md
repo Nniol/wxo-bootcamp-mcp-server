@@ -45,7 +45,9 @@ Pre Reqs:
 
 ### Account A (The one with the Container Registry)
 - $ibmcloud login -a https://cloud.ibm.com --sso
-  - Choose the account with the Container Registry
+  - Choose the account with the Container   
+- $ibmcloud target -r [region]
+- $ibmcloud target -g [group_name]
 - $ibmcloud cr login
 - $ibmcloud cr namespace-add [NAMESPACE]
 - $podman tag wxo-bootcamp-mcp-sever us.icr.io/[NAMESPACE]/[IMAGE_NAME]:[TAG] 
